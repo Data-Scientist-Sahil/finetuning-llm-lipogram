@@ -1,0 +1,18 @@
+{
+  "base_mask": {
+    "review_source": "AI-generated proxy review (Claude)",
+    "independent_human_review": false,
+    "independent_judge_validation": false,
+    "n": 9,
+    "mean_coherence": 3.33,
+    "mean_responsiveness": 3.78
+  },
+  "adapter_mask": {
+    "review_source": "AI-generated proxy review (Claude)",
+    "independent_human_review": false,
+    "independent_judge_validation": false,
+    "n": 9,
+    "mean_coherence": 4.89,
+    "mean_responsiveness": 5.0
+  }
+}

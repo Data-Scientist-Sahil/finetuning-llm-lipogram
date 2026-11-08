@@ -1,0 +1,28 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+# keep committed results small: ignore the mask cache and model downloads
+results/.mask_cache/
+*.safetensors
+hf_cache/
+.DS_Store
+.ipynb_checkpoints/
+
+# Local credentials (examples may be committed)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Downloaded models, training artifacts and local process logs
+*.pt
+*.pth
+*.ckpt
+*.bin
+.cache/
+checkpoints/
+results/idea2_*/
+**/train_log.jsonl
+planning/
+phase_logs/

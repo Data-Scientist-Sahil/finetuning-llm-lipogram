@@ -1,0 +1,8 @@
+# core (CPU wheels work; GPU users install the matching CUDA torch instead)
+torch>=2.2
+transformers>=4.51
+peft>=0.11
+accelerate>=0.30
+# optional: automated LLM judge backends (not required for deterministic axes)
+# anthropic>=0.39
+# openai>=1.40
