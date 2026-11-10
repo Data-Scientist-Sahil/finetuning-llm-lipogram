@@ -20,9 +20,6 @@ This is REINFORCE with GRPO's group baseline + a KL regulariser (single on-polic
 update per batch, so no PPO ratio/clip). Enough to test the reward; swap in PPO
 clipping later if needed.
 
-Status: experimental training kit, not yet run or GPU-validated. Adapter saves
-do not implement full training resume: no optimizer/global-step restoration.
-
 Start point: Kevin's SFT-only adapter k33wu/qwen3-1.7b-no-e-sft180 (continue-train
 its LoRA). Output: a new adapter dir, evaluated with the benchmark via
 generate.py --adapter-path.
@@ -72,21 +69,25 @@ def to_text(tok, prompt):
         return tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
 
 
-def seq_logprobs(model, input_ids, attn, prompt_len):
-    """Sum log p(token) over the completion tokens of each sequence. Returns
-    (sum_logp [B], n_tokens [B]). Uses current grad mode of the caller."""
-    out = model(input_ids=input_ids, attention_mask=attn)
-    logits = out.logits[:, :-1, :]
-    targets = input_ids[:, 1:]
-    logp = torch.log_softmax(logits.float(), dim=-1)
-    tok_logp = logp.gather(-1, targets.unsqueeze(-1)).squeeze(-1)  # [B, L-1]
-    # mask: only completion tokens (positions >= prompt_len-1 in the shifted view) and real tokens
-    L = input_ids.shape[1]
-    idx = torch.arange(L - 1, device=input_ids.device).unsqueeze(0)
-    comp_mask = (idx >= (prompt_len - 1)) & (attn[:, 1:] > 0)
-    summed = (tok_logp * comp_mask).sum(-1)
+def seqlogp_from_logits(logits, ids, attn, plens):
+    """Per-sequence summed completion log-prob from logits, memory-efficiently.
+
+    Avoids materialising a full [B, L, vocab] fp32 log-softmax (the T4 OOM): it
+    gathers the target-token logit and subtracts a logsumexp over the vocab. Call
+    on a MICRO-BATCH so the transient fp32 is small. Returns (sum_logp[B], ntok[B]).
+    """
+    logits = logits[:, :-1, :]
+    targets = ids[:, 1:]
+    tgt = logits.gather(-1, targets.unsqueeze(-1)).squeeze(-1).float()   # [B, L-1]
+    lse = torch.logsumexp(logits.float(), dim=-1)                        # [B, L-1]
+    tok_logp = tgt - lse
+    Lm1 = ids.shape[1] - 1
+    idx = torch.arange(Lm1, device=ids.device).unsqueeze(0)
+    plen_t = torch.tensor(plens, device=ids.device).unsqueeze(1)
+    comp_mask = (idx >= (plen_t - 1)) & (attn[:, 1:] > 0)
+    sum_logp = (tok_logp * comp_mask).sum(-1)
     ntok = comp_mask.sum(-1).clamp(min=1)
-    return summed, ntok
+    return sum_logp, ntok
 
 
 def train(args):
@@ -100,6 +101,11 @@ def train(args):
     mask_proc = LogitsProcessorList([build_processor(tok, device=device)])
     opt = torch.optim.AdamW([p for p in model.parameters() if p.requires_grad], lr=args.lr)
     prompts = load_prompts(args.prompts)
+    excl = set(args.exclude_req_types or [])
+    if excl:
+        before = len(prompts)
+        prompts = [p for p in prompts if p["req"]["type"] not in excl]
+        print(f"excluded req types {sorted(excl)}: {before} -> {len(prompts)} train prompts")
 
     os.makedirs(args.out, exist_ok=True)
     log = open(os.path.join(args.out, "train_log.jsonl"), "a")
@@ -145,41 +151,39 @@ def train(args):
         for j, x in enumerate(all_ids):
             ids_b[j, :x.shape[0]] = x
             attn_b[j, :x.shape[0]] = 1
-        # per-sample prompt_len differ; compute logprobs per sample-group using min plen trick:
-        # we stored plens per sample — handle via a loop-safe constant since all in a group share plen
-        # (left-padding would shift; we right-pad and pass plen per sample through comp_mask)
-        # Build a per-row prompt_len mask instead of a scalar:
+        # ---- policy update, MICRO-BATCHED so vocab logits never blow up GPU mem ----
+        # The GRPO-lite loss is separable per sequence (advantages are precomputed),
+        # so we forward/​backward a few sequences at a time and accumulate gradients.
         model.train()
-        out = model(input_ids=ids_b, attention_mask=attn_b)
-        logits = out.logits[:, :-1, :]
-        targets = ids_b[:, 1:]
-        logp = torch.log_softmax(logits.float(), dim=-1)
-        tok_logp = logp.gather(-1, targets.unsqueeze(-1)).squeeze(-1)
-        Lm1 = ids_b.shape[1] - 1
-        idx = torch.arange(Lm1, device=device).unsqueeze(0)
-        plen_t = torch.tensor(plens, device=device).unsqueeze(1)
-        comp_mask = (idx >= (plen_t - 1)) & (attn_b[:, 1:] > 0)
-        sum_logp = (tok_logp * comp_mask).sum(-1)
-        ntok = comp_mask.sum(-1).clamp(min=1)
-
-        # KL to reference (base, adapter disabled), no grad
-        with torch.no_grad():
-            with model.disable_adapter():
-                ref_out = model(input_ids=ids_b, attention_mask=attn_b)
-            ref_logp = torch.log_softmax(ref_out.logits[:, :-1, :].float(), -1)
-            ref_tok = ref_logp.gather(-1, targets.unsqueeze(-1)).squeeze(-1)
-            ref_sum = (ref_tok * comp_mask).sum(-1)
-        kl = ((sum_logp - ref_sum) / ntok).mean()
-
-        pg = -(adv_t * (sum_logp / ntok)).mean()
-        loss = pg + args.beta * kl
-        opt.zero_grad(); loss.backward()
+        opt.zero_grad()
+        N = len(all_ids)
+        MB = max(1, args.micro_batch)
+        loss_val, kl_val = 0.0, 0.0
+        for s in range(0, N, MB):
+            sl = slice(s, s + MB)
+            ids_mb, attn_mb, adv_mb = ids_b[sl], attn_b[sl], adv_t[sl]
+            plens_mb = plens[s:s + MB]
+            # reference (base, adapter disabled) first, then free it before the policy pass
+            with torch.no_grad():
+                with model.disable_adapter():
+                    ref_logits = model(input_ids=ids_mb, attention_mask=attn_mb).logits
+                ref_sum, _ = seqlogp_from_logits(ref_logits, ids_mb, attn_mb, plens_mb)
+                del ref_logits
+            pol_logits = model(input_ids=ids_mb, attention_mask=attn_mb).logits
+            sum_logp, ntok = seqlogp_from_logits(pol_logits, ids_mb, attn_mb, plens_mb)
+            del pol_logits
+            kl = (sum_logp - ref_sum) / ntok
+            pg = -(adv_mb * (sum_logp / ntok))
+            loss = (pg + args.beta * kl).sum() / N          # 1/N so the whole step is a mean
+            loss.backward()
+            loss_val += loss.item()
+            kl_val += kl.sum().item() / N
         torch.nn.utils.clip_grad_norm_([p for p in model.parameters() if p.requires_grad], 1.0)
         opt.step()
 
         rec = {"step": step, "mean_reward": round(sum(rewards) / len(rewards), 3),
-               "max_reward": round(max(rewards), 3), "loss": round(loss.item(), 4),
-               "kl": round(kl.item(), 4), "secs": round(time.time() - t0)}
+               "max_reward": round(max(rewards), 3), "loss": round(loss_val, 4),
+               "kl": round(kl_val, 4), "secs": round(time.time() - t0)}
         print(rec)
         log.write(json.dumps(rec) + "\n"); log.flush()
         if step % args.save_every == 0 or step == args.steps:
@@ -202,6 +206,10 @@ if __name__ == "__main__":
     ap.add_argument("--beta", type=float, default=0.02)
     ap.add_argument("--save-every", type=int, default=20)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--exclude-req-types", nargs="*", default=["max_words"],
+                    help="req types to drop from TRAINING (default: max_words, which teaches brevity)")
+    ap.add_argument("--micro-batch", type=int, default=2,
+                    help="sequences per forward/backward chunk (lower = less GPU mem). T4-safe default 2.")
     ap.add_argument("--device", default="cuda" if torch.cuda.is_available() else "cpu")
     ap.add_argument("--dtype", default=None, help="float32|bfloat16|float16 (default: fp32 cpu / bf16 gpu)")
     train(ap.parse_args())

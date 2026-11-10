@@ -1,187 +1,4 @@
 id,config,category,prompt,answer,letter_compliant,requirement_satisfied,coherence_1to5,responsiveness_1to5,notes
-p01,base_prompt,suggestions,"I want to start running as a hobby. Suggest 3 things I should buy first. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. buy a running shoe that provides good support and cushioning for your feet  
-2. get a comfortable running jacket to stay dry and protected during your runs  
-3. purchase a running belt to help with muscle recovery and injury prevention",False,True,,,
-p02,base_prompt,suggestions,"Suggest 3 ways to stay calm during a long train journey. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Sit in a seat with good view and comfortable chair  
-   This helps reduce stress by providing a pleasant environment to focus on.
-
-2. Practice deep breathing exercises  
-   This technique can help calm the nervous system and reduce anxiety during travel.
-
-3. Engage in a quiet activity  
-   Doing something enjoyable and relaxing can distract the mind and provide a sense of control.",False,True,,,
-p03,base_prompt,suggestions,"Suggest 3 good habits for a tidy room. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. organize your items regularly  
-this helps prevent clutter and makes it easier to find what you need  
-
-2. clean surfaces after use  
-this keeps the space fresh and reduces the buildup of dirt and dust  
-
-3. dispose of trash promptly  
-this prevents accumulation and maintains a clean and healthy environment",False,True,,,
-p04,base_prompt,suggestions,"Suggest 3 ways to cut down on plastic at a shop. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Bring your own reusable bags  
-   This reduces the need for single-use plastic bags.
-
-2. Use a reusable water bottle  
-   This cuts down on plastic bottles and keeps your water clean.
-
-3. Choose products with minimal packaging  
-   This reduces the amount of plastic used in the first place.",False,True,,,
-p05,base_prompt,suggestions,"Suggest 3 fun things a child can do on a rainy day. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Build a sandcastle with a bucket and shovel  
-   A rainy day can provide a natural sandbox for creative play.
-
-2. Read a book in a cozy chair  
-   It's a great way to enjoy stories and relax indoors.
-
-3. Make a raincoat from a old shirt  
-   It's a fun and eco-friendly activity that can be both creative and practical.",False,True,,,
-p06,base_prompt,suggestions,"I am hosting a small lunch. Suggest 3 dishes I could cook. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. **Grilled Chicken Skewers**  
-   Quick to prepare and easy to serve, perfect for a casual lunch.
-
-2. **Quinoa Salad with Veggies**  
-   Nutrient-rich and colorful, provides a balanced mix of proteins and vegetables.
-
-3. **Simple Pasta with Tomato Sauce**  
-   Fast to make and simple to eat, ideal for a quick and satisfying meal.",False,False,,,
-p07,base_prompt,suggestions,"Suggest 3 ways to stay fit without a gym. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Go for a walk in nature  
-   This helps improve mood and increase physical activity without the need for equipment.
-
-2. Do bodyweight exercises at home  
-   It's easy to do and can build strength and flexibility without any extra costs.
-
-3. Join a local fitness class  
-   You can stay motivated and get guidance from others in a group setting.",False,True,,,
-p08,base_prompt,suggestions,"Suggest 3 low-cost gifts for a young kid. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A toy dinosaur  
-   This is a fun and engaging way to spark imagination and learning.
-
-2. A coloring book  
-   It provides creative expression and can be a relaxing activity for the child.
-
-3. A small robot or action figure  
-   These items are affordable and can be used for play and storytelling.",False,False,,,
-p09,base_prompt,suggestions,"Suggest 4 tips for a first job interview. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. research the company and the role thoroughly  
-this helps you show interest and preparedness  
-
-2. arrive early and be punctual  
-this demonstrates respect and professionalism  
-
-3. dress appropriately for the interview  
-this makes a good impression and shows attention to detail  
-
-4. ask thoughtful questions during the interview  
-this shows you are engaged and interested in the role",False,True,,,
-p10,base_prompt,suggestions,"Suggest 4 ways to spend an afternoon in a big city. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Visit a museum to explore historical artifacts and cultural significance  
-2. Walk through a park to enjoy nature and fresh air  
-3. Try a new restaurant for a unique culinary experience  
-4. Attend a live performance to experience art and entertainment",False,True,,,
-p11,base_prompt,suggestions,"Suggest 4 ways to study for a hard math class. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Review your notes and textbook regularly to reinforce key concepts and identify areas that need more attention.  
-2. Practice solving problems daily, even if they are simple, to build confidence and improve problem-solving skills.  
-3. Seek help from classmates or tutors when you encounter difficulties, as discussing problems can deepen your understanding.  
-4. Use active learning techniques like flashcards or teaching others to strengthen memory and comprehension.",False,True,,,
-p12,base_prompt,suggestions,"Suggest 4 small ways to cut monthly spending. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Replace coffee with water – this reduces the cost of daily beverages and saves money.  
-2. Cancel unused subscriptions – this cuts unnecessary expenses and avoids paying for services you don’t use.  
-3. Use public transportation instead of driving – this lowers fuel and maintenance costs.  
-4. Buy in bulk – this can save money on items that are used frequently.",False,True,,,
-p13,base_prompt,suggestions,"Suggest 5 topics for a short talk at school. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. The importance of recycling in reducing waste  
-   Recycling helps conserve natural resources and reduces the amount of trash that ends up in landfills.
-
-2. The impact of social media on communication  
-   Social media changes how people connect and share information, both positively and negatively.
-
-3. The benefits of renewable energy sources  
-   Renewable energy is cleaner and more sustainable than fossil fuels, reducing pollution and greenhouse gas emissions.
-
-4. The role of education in personal development  
-   Education equips individuals with knowledge and skills that help them grow and contribute to society.
-
-5. The significance of preserving cultural heritage  
-   Preserving cultural heritage keeps traditions and history alive for future generations.",False,True,,,
-p14,base_prompt,suggestions,"Suggest 5 ways to stay safe on a long road trip. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Plan your route in advance to avoid unexpected delays and traffic.  
-2. Pack essential supplies like water, food, and a first-aid kit.  
-3. Use a reliable navigation app to stay on track and avoid getting lost.  
-4. Keep your phone charged and have a backup power source.  
-5. Stay hydrated and take regular breaks to avoid fatigue.",False,True,,,
-p15,base_prompt,list,"Name 3 sports that two kids can play in a park. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. soccer  
-2. basketball  
-3. baseball",False,True,,,
-p16,base_prompt,list,"Name 3 colors that look good on a dark wall. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Navy  
-2. Indigo  
-3. Purple",False,True,,,
-p17,base_prompt,list,"List 4 animals a kid might spot on a farm. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. cow  
-2. chicken  
-3. pig  
-4. horse",False,True,,,
-p18,base_prompt,list,"List 4 things to pack for a day at a hot, sandy spot by the ocean. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. sunblock  
-2. a wide-brimmed hat  
-3. a light cotton shirt  
-4. a reusable water bottle",False,True,,,
-p19,base_prompt,list,"Name 5 jobs a town cannot run without. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Water supply  
-2. Waste management  
-3. Public transportation  
-4. Emergency services  
-5. Healthcare facilities",False,True,,,
-p20,base_prompt,list,"List 5 countries with a long coast. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. canada  
-2. australia  
-3. india  
-4. mexico  
-5. spain",False,True,,,
-p21,base_prompt,steps,"Walk through how to wash a car, in 4 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. gather the necessary tools and materials  
-   - wash mitt, sponge, car wash solution, bucket, towel, and a clean cloth  
-
-2. rinse the car thoroughly with water  
-   - use a hose or pressure washer to remove surface dirt and debris  
-
-3. apply car wash solution and scrub the surface  
-   - apply the solution to the car and use the mitt to scrub away dirt and grime  
-
-4. rinse the car again and dry it with a clean cloth  
-   - rinse the car with water and dry it with a clean towel to prevent water spots",False,True,,,
-p22,base_prompt,steps,"Walk through how to plant a small shrub, in 4 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Choose a suitable location for the shrub. Ensure the area has adequate sunlight and well-draining soil. Avoid areas with heavy shade or waterlogged soil.
-
-2. Prepare the soil by loosening it and removing any weeds or debris. This helps the shrub establish roots more easily and prevents competition from other plants.
-
-3. Dig a hole that is slightly larger than the root ball of the shrub. This allows for proper drainage and gives the plant space to grow.
-
-4. Place the shrub in the hole and backfill with soil, making sure to compress the soil around the roots. Water the shrub thoroughly after planting to settle the soil and encourage root growth.",False,True,,,
-p23,base_prompt,steps,"Walk through how to wrap a gift, in 3 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Choose the appropriate gift wrapping paper and ribbon.  
-2. Cut the paper to fit the gift box or container.  
-3. Apply the paper and ribbon to the gift, securing it with ties or clips.",False,True,,,
-p24,base_prompt,steps,"Walk through how to boil an egg, in 5 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Gather the necessary ingredients: a pot, water, a stove, and a bowl.  
-2. Fill the pot with water and bring it to a rolling boil.  
-3. Place the egg in the pot and let it sit for 1 minute.  
-4. Remove the egg from the pot and place it in a bowl.  
-5. Let the egg sit in the bowl for 15 seconds.",False,True,,,
-p25,base_prompt,explain,"In exactly 2 sentences, say why a dog is a good pal for a child. Avoid the letter e.",A dog offers companionship and joy. They teach responsibility and love.,False,True,,,
-p26,base_prompt,explain,"In exactly 2 sentences, say what makes a city fun to visit. Avoid the letter e.",A city thrives on vibrant streets and unexpected adventures. It offers a mix of culture and chaos that keeps visitors eager to explore.,False,True,,,
-p27,base_prompt,explain,"In exactly 3 sentences, talk about why books matter. Avoid the letter e.",Books hold power to shape thought. They preserve knowledge across time. They connect minds across distance.,False,True,,,
-p28,base_prompt,explain,"In exactly 3 sentences, say what a good boss should do. Avoid the letter e.",A good boss inspires trust. They lead with integrity. They empower growth.,False,True,,,
-p29,base_prompt,explain,"In exactly 3 sentences, talk about how music can shift a mood. Avoid the letter e.",Music alters emotional states by evoking memories and triggering physiological responses. It can transform a quiet room into a vibrant space with a single note. The right melody can shift a person from sorrow to joy in a heartbeat.,False,True,,,
-p30,base_prompt,explain,"In exactly 2 sentences, say why warm soup is good on a cold night. Avoid the letter e.",A warm soup provides comfort and nourishment on a cold night. It brings warmth and joy to the soul.,False,True,,,
-p31,base_prompt,explain,"In exactly 3 sentences, say what a first-ade class is for. Avoid the letter e.",A first-ade class is a group of students who are newly admitted to a school. It is designed to help them adjust to the academic and social environment. The class focuses on building confidence and fostering a sense of community.,False,True,,,
-p32,base_prompt,explain,"In exactly 4 sentences, tell a tiny story about a cat on a farm. Avoid the letter e.",A cat pounced on a field of clover. A hen clucked and fled. The cat chased the hen through the grass. The cat sat on a log and watched the sun set.,False,True,,,
-p33,base_prompt,compare,"Pick a cat or a dog as a pal, say which, and in 2 sentences say why. Avoid the letter e.","I choose a cat. She is quiet and thoughtful, always there to listen. She brings joy and comfort to those who care.",False,True,,,
-p34,base_prompt,compare,"Pick a bus or a car for a city trip, say which, and in 2 sentences say why. Avoid the letter e.",I'll pick a bus. It's efficient and eco-friendly for city trips. It's easy to navigate and less stressful than a car.,False,True,,,
-p35,base_prompt,compare,"Pick a book or a film for a long flight, say which, and in 2 sentences say why. Avoid the letter e.","*The Martian*  
-It's a gripping tale of survival and human resilience in a post-apocalyptic world. The protagonist, Mark Watney, uses his knowledge and resourcefulness to survive alone on Mars.",False,True,,,
-p36,base_prompt,brief,"In 6 words or fewer, give a motto for a running club. Avoid the letter e.","Run strong, run fast, run free.",False,True,,,
-p37,base_prompt,brief,"In 8 words or fewer, sum up why kids should nap. Avoid the letter e.",Kids need rest to grow.,False,True,,,
-p38,base_prompt,brief,"In 5 words or fewer, name a good motto for a farm shop. Avoid the letter e.","Green earth, fresh hope.",False,True,,,
-p39,base_prompt,suggestions,"Suggest 3 ways to stay warm on a cold walk. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Wear a thick jacket to trap heat and keep you warm in cold air  
-2. Bring a scarf or head covering to protect your face and ears from the wind  
-3. Use a warm blanket or carry a heated item to keep your body warm during the walk",False,True,,,
-p40,base_prompt,suggestions,"Suggest 3 books a young adult might curl up with. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. *The Hunger Games* – a thrilling dystopian novel that explores themes of rebellion and survival  
-2. *To Kill a Mockingbird* – a powerful story about justice and morality in a racially divided society  
-3. *The Maze Runner* – a gripping tale of a group of kids who find themselves in a mysterious maze and must survive it",False,True,,,
-p41,base_prompt,suggestions,"Suggest 4 ways to turn a dull room into a cozy spot. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Add soft lighting to create a warm atmosphere  
-   This makes the room feel more inviting and comfortable.
-
-2. Use plush textiles to add texture and comfort  
-   It enhances the tactile experience and makes the space feel more cozy.
-
-3. Incorporate warm colors and patterns  
-   These choices create a welcoming and relaxing environment.
-
-4. Add personal touches like a favorite book or photo  
-   It makes the room feel more individual and special.",False,True,,,
 p01,base_mask,suggestions,"I want to start running as a hobby. Suggest 3 things I should buy first. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. buy a running鞋 that fits your foot and supports your gait  
 this will avoid injury and boost your comfort during long runs
 
@@ -382,6 +199,173 @@ this will bring a soothing and calming quality to your room.
 
 4. Adding a small, cozy rug in a warm color.  
 this will add a soft, grounding touch and a warm, inviting spot.",True,True,,,
+p01,sft_mask,suggestions,"I want to start running as a hobby. Suggest 3 things I should buy first. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A pair of running boots. Running boots support your foot and aid your form. A good pair can stop you from hurting your foot.
+
+2. A running watch. It tracks your runs and can warn you if you go too fast. It can also show your daily activity and your goals.
+
+3. A small bag for carrying your kit. It can hold your running watch, a pair of boots, and a small band. It can also aid you in carrying your kit without a big bag.",True,True,,,
+p02,sft_mask,suggestions,"Suggest 3 ways to stay calm during a long train journey. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put your bag by your door and sit with a book. This stops you from pulling it apart and puts you in a calm spot.
+
+2. Put your watch on a wall and look at a clock. This stops you from looking at it all day and puts you in a calm spot.
+
+3. Put your bag by your door and sit with a book. This stops you from pulling it apart and puts you in a calm spot.",True,True,,,
+p03,sft_mask,suggestions,"Suggest 3 good habits for a tidy room. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put things back in a box. A box can hold things you want to find quickly and stop a room from filling up.
+
+2. Put things out on a day prior to a rush. A rush can bring a room into a bad condition, so a plan can stop that rush.
+
+3. Put things out of sight. A room can look tidy without all things in plain sight.",True,True,,,
+p04,sft_mask,suggestions,"Suggest 3 ways to cut down on plastic at a shop. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Ask for a bag. A bag can carry your goods without adding plastic to your shopping cart.
+
+2. Pick a bag with a tag. Tags can show what is in it and how to wash it.
+
+3. Put goods in a bag prior to paying. A bag can stop plastic from going into your shopping cart.",True,True,,,
+p05,sft_mask,suggestions,"Suggest 3 fun things a child can do on a rainy day. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Build a sandcast. A sandcast can form a small hill or a boat. It is fun to watch it form.
+
+2. Draw a rainy day. A child can draw rain, puddls, and a cloudy sky. Drawing can bring joy.
+
+3. Play a rainy day board or card. A rainy day can still allow a child to play with a family.",True,True,,,
+p06,sft_mask,suggestions,"I am hosting a small lunch. Suggest 3 dishes I could cook. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A small bowl of soup. It is light and can fill a spot without a big bulk.
+
+2. A small loaf of toast. It is quick to cook and can go with many things.
+
+3. A small salad. It is light and can go with a main dish without a big bulk.",True,True,,,
+p07,sft_mask,suggestions,"Suggest 3 ways to stay fit without a gym. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Walk 30 min daily. A walk can burn fat and build stamina without a gym.
+
+2. Do a 10-min workout with a buddy. A buddy can hold you to a goal and add fun to your daily plan.
+
+3. Do a 10-min yoga class. Yoga can build stamina and calm your mind without a gym.",True,True,,,
+p08,sft_mask,suggestions,"Suggest 3 low-cost gifts for a young kid. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A small toy: it can bring joy and occupy a child's mind.
+
+2. A drawing pad: it can allow a child to draw and build a story.
+
+3. A small toy: it can bring joy and occupy a child's mind.",True,True,,,
+p09,sft_mask,suggestions,"Suggest 4 tips for a first job interview. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Know your job and your company. Ask what you can do and what you should not do.
+
+2. Put your thoughts in writing. A short, crisp account can cut down on awkward talk.
+
+3. Ask a firm, distinct follow-up. A good follow-up can show you want to find out what is important.
+
+4. Ask for a trial. A small trial can show if you can work with a boss and a group.",True,True,,,
+p10,sft_mask,suggestions,"Suggest 4 ways to spend an afternoon in a big city. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Walk through a busy plaza and look at all its shops and stalls. A crowd can bring joy and a rush of sights.
+
+2. Try a local food stall. A tasty dish can bring a rush of satisfaction and a bit of local flavor.
+
+3. Visit a public art installation. Art can bring a calm contrast to a busy city and a way to stop and look.
+
+4. Join a small group for a short walk. A small group can bring a calm companion and a way to talk about what you saw.",True,True,,,
+p11,sft_mask,suggestions,"Suggest 4 ways to study for a hard math class. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Do a short warm-up task. A small task can show what you know and what you still lack.
+
+2. Put a hard task into a form you can do. A task can look hard, but a small shift can turn it into a task you can do.
+
+3. Ask a class buddy to do a task. A buddy can point out a gap in your thinking and show you a way forward.
+
+4. Do a short quiz. A quiz can show what you know and what you still lack.",True,True,,,
+p12,sft_mask,suggestions,"Suggest 4 small ways to cut monthly spending. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Buy only what you must. A small daily habit can cut a big bill.
+
+2. Put a limit on your monthly bill. A small cut can add up.
+
+3. Put a limit on your monthly bill. A small cut can add up.
+
+4. Put a limit on your monthly bill. A small cut can add up.",True,True,,,
+p13,sft_mask,suggestions,"Suggest 5 topics for a short talk at school. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. How to ask a good follow-up: a good follow-up can turn a short class into a long talk.
+
+2. Why a small group can still do a big job: a small group can do a big job if all its tasks fit.
+
+3. Why a small class can still do a big job: a small class can do a big job if all its tasks fit.
+
+4. Why a short talk can still do a big job: a short talk can do a big job if all its points fit.
+
+5. Why a short talk can still do a big job: a short talk can do a big job if all its points fit.",True,True,,,
+p14,sft_mask,suggestions,"Suggest 5 ways to stay safe on a long road trip. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put your car in a good spot. A solid spot can stop a crash and stop a long trip from turning into a long wait.
+
+2. Put your map in plain sight. A map can show a path and a stop, without a map in your bag.
+
+3. Put your gas in a spot that can supply it. Gas can run out without a stop, and a stop can turn into a long wait.
+
+4. Put your alarm in plain sight. A stop can turn into a long wait, and a stop can turn into a long wait.
+
+5. Put your bag in plain sight. A bag can turn into a long wait, and a stop can turn into a long wait.",True,True,,,
+p15,sft_mask,list,"Name 3 sports that two kids can play in a park. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Hiking with a buddy.
+2. Bowling with a buddy.
+3. Kickball with a buddy.",True,True,,,
+p16,sft_mask,list,"Name 3 colors that look good on a dark wall. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Gold can add warmth to a dark wall.
+2. Pink can add a soft glow to a dark wall.
+3. Brown can add a warm look to a dark wall.",True,True,,,
+p17,sft_mask,list,"List 4 animals a kid might spot on a farm. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A cow with a big body.
+2. A duck with a small bill.
+3. A pig with a big tail.
+4. A goat with a big horn.",True,True,,,
+p18,sft_mask,list,"List 4 things to pack for a day at a hot, sandy spot by the ocean. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A hat and a sun hat.
+2. A light shirt and a light sandal.
+3. A small bag for food and drinks.
+4. A small bag for a dry cloth and a small cup.",True,True,,,
+p19,sft_mask,list,"Name 5 jobs a town cannot run without. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A postman must bring mail to all.
+2. A shop must stock goods for all.
+3. A doctor must look at all who call.
+4. A bus must carry all who want to go.
+5. A guard must look at all who walk in.",True,True,,,
+p20,sft_mask,list,"List 5 countries with a long coast. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Canada has a long coast.
+2. Australia has a long coast.
+3. Russia has a long coast.
+4. Norway has a long coast.
+5. South Africa has a long coast.",True,True,,,
+p21,sft_mask,steps,"Walk through how to wash a car, in 4 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Wash your car with a damp cloth, without a strong spray. A damp cloth can wash dirt off without harming paint.
+
+2. Wash your car's body with a good brush and a good soap. A brush can wash off dirt from a hard-to-wash spot.
+
+3. Wash your car's roof and all parts of its body. A good wash can wash off dirt from all parts of your car.
+
+4. Wash your car's roof and all parts of its body again. A good wash can wash off dirt from all parts of your car.",True,True,,,
+p22,sft_mask,steps,"Walk through how to plant a small shrub, in 4 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Pick a spot with room for its roots and a calm day. A firm spot and a calm day can aid a shrub's start.
+
+2. Lift a shrub from its pot and look for a firm root. A firm root can aid a shrub's start.
+
+3. Put it in a firm spot and fill its pot with soil. A firm spot and soil can aid a shrub's start.
+
+4. Allow it to grow and look for a firm root. A firm shrub can aid a shrub's start.",True,True,,,
+p23,sft_mask,steps,"Walk through how to wrap a gift, in 3 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Pick a wrapping tag that fits your gift and your occasion. A tag can add a touch of formality or humor.
+
+2. Put your gift in a box and wrap it with ribbon. A ribbon can add a final touch of charm.
+
+3. Put your tag on your box and fast it up. A tag can add a final touch of formality or humor.",True,True,,,
+p24,sft_mask,steps,"Walk through how to boil an egg, in 5 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put a pot of cold, salty H2O into a sink.
+2. Put a bowl in that pot and allow it to fill.
+3. Put a lid on it and bring it to a boil.
+4. Allow it to sit for 10 min.
+5. Lift it from a hot pot and put it in a bowl.",True,True,,,
+p25,sft_mask,explain,"In exactly 2 sentences, say why a dog is a good pal for a child. Avoid the letter e.",A dog can bring joy and a calm companion. It can also show you what it wants and how to act.,True,True,,,
+p26,sft_mask,explain,"In exactly 2 sentences, say what makes a city fun to visit. Avoid the letter e.","A city can bring joy with its sights, sounds, and good food. A walk through its narrow paths can bring a calm joy.",True,True,,,
+p27,sft_mask,explain,"In exactly 3 sentences, talk about why books matter. Avoid the letter e.",A book can pass on a thought. A book can pass on a story. A book can pass on a way of thinking.,True,True,,,
+p28,sft_mask,explain,"In exactly 3 sentences, say what a good boss should do. Avoid the letter e.",Ask what you want to do. Say why it is important. Follow up on what you did.,True,True,,,
+p29,sft_mask,explain,"In exactly 3 sentences, talk about how music can shift a mood. Avoid the letter e.",A soft song can calm a room. A loud song can stir a crowd. A song can shift a mood in a short span.,True,True,,,
+p30,sft_mask,explain,"In exactly 2 sentences, say why warm soup is good on a cold night. Avoid the letter e.",A bowl of soup can bring warmth to a body and comfort to a mind. It can bring joy to a night that calls for calm.,True,True,,,
+p31,sft_mask,explain,"In exactly 3 sentences, say what a first-ade class is for. Avoid the letter e.","A first-aid class trains you to stop harm, call for support, and aid a hurt companion. It can also aid you in a small injury or a minor ail. A class can also aid you in a small ail.",True,True,,,
+p32,sft_mask,explain,"In exactly 4 sentences, tell a tiny story about a cat on a farm. Avoid the letter e.",A cat sits on a straw mat by a coop. A small bird lands on its back. A man brings a bag of oats to its bowl. A cat curls up and waits for a small bird to fly away.,True,True,,,
+p33,sft_mask,compare,"Pick a cat or a dog as a pal, say which, and in 2 sentences say why. Avoid the letter e.",I call my pal Bubba. Bubba is a big dog with a big grin. Bubba brings joy to all who know him.,True,True,,,
+p34,sft_mask,compare,"Pick a bus or a car for a city trip, say which, and in 2 sentences say why. Avoid the letter e.",A bus is good for a short trip. A car is good for a long trip.,True,True,,,
+p35,sft_mask,compare,"Pick a book or a film for a long flight, say which, and in 2 sentences say why. Avoid the letter e.","A film: ""Atoning."" It shows a man trying to fix a past wrong. A book: ""A Room of My Own."" It asks what a woman must own to find a room of our own.
+
+Both ask what is important to us.",True,True,,,
+p36,sft_mask,brief,"In 6 words or fewer, give a motto for a running club. Avoid the letter e.","Run fast, run strong, run on.",True,True,,,
+p37,sft_mask,brief,"In 8 words or fewer, sum up why kids should nap. Avoid the letter e.","Kids grow with naps. Naps aid growth, calm minds, and aid daily tasks.",True,False,,,
+p38,sft_mask,brief,"In 5 words or fewer, name a good motto for a farm shop. Avoid the letter e.","Grow, shop, grow.",True,True,,,
+p39,sft_mask,suggestions,"Suggest 3 ways to stay warm on a cold walk. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put on a thick coat and wrap up in a scarf. A thick coat stops cold air from blowing in and stops your body from losing warmth.
+
+2. Walk slowly and stop for a short walk. A slow walk allows your body to warm up and stops you from rushing through a cold walk.
+
+3. Put a small bag of hot soup or a mug of hot cocoa in your bag. Hot food stops your body from losing warmth and can bring comfort to your walk.",True,True,,,
+p40,sft_mask,suggestions,"Suggest 3 books a young adult might curl up with. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A boy can find comfort in a story about a boy who must grow up fast. A fast start can match a young adult's own rush to find a job or a first job.
+
+2. A girl can find a world full of magic and a boy who wants to know what it is about that world. A fantasy world can match a young adult's own wish to try a bold thing.
+
+3. A boy can find a story about a boy who must grow up fast. A fast start can match a young adult's own rush to find a job or a first job.",True,True,,,
+p41,sft_mask,suggestions,"Suggest 4 ways to turn a dull room into a cozy spot. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put a rug on a floor. A rug can add warmth and a soft look without a big job.
+
+2. Put a small lamp on a low stand. A lamp can add light and a soft glow without a big job.
+
+3. Put a small cloth on a chair. A cloth can add comfort and a soft look without a big job.
+
+4. Put a small bowl of soup on a low stand. Soup can add warmth and a soft look without a big job.",True,True,,,
 p01,adapter_mask,suggestions,"I want to start running as a hobby. Suggest 3 things I should buy first. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A running watch: it tracks your runs and shows your stats.
 2. A running shirt: it allows you to run comfortably and look good.
 3. A running bag: it holds your kit and tools without taking up much room.",True,True,,,
@@ -527,3 +511,133 @@ p41,adapter_mask,suggestions,"Suggest 4 ways to turn a dull room into a cozy spo
 2. Put soft lighting and a warm color into play to bring calm into focus.
 3. Put a small book or photo on a low stool to add warmth and a focal point.
 4. Put a small plant or bowl of fruit on a low stand to bring a touch of joy.",True,True,,,
+p01,trained_mask,suggestions,"I want to start running as a hobby. Suggest 3 things I should buy first. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A pair of running boots with good grip and comfort.
+2. A small running bag with room for a book and a small kit.
+3. A watch that can track your runs and stop automatically.",True,True,,,
+p02,trained_mask,suggestions,"Suggest 3 ways to stay calm during a long train journey. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Bring a small book to occupy your mind.
+2. Allow room for a short walk to shift your mood.
+3. Try a small task, such as sorting small things.",True,True,,,
+p03,trained_mask,suggestions,"Suggest 3 good habits for a tidy room. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put things back in a box. A box stops things drifting around.
+2. Put out a cloth for dusting. Dusting can wait until you finish.
+3. Put things out of sight. A tidy room looks good without work.",True,True,,,
+p04,trained_mask,suggestions,"Suggest 3 ways to cut down on plastic at a shop. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Ask about a shop's policy on plastic bags.
+2. Pick bulk goods to cut down on wrapping.
+3. Put off buying small things until you can carry out your shopping.",True,True,,,
+p05,trained_mask,suggestions,"Suggest 3 fun things a child can do on a rainy day. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Build a fort with a toy box and a curtain.
+Rain can stop play, but it can also start a fun indoor task.
+
+2. Draw on a window with chalk.
+Rain can wash away paint, but chalk stays put.
+
+3. Play catch with a toy ball.
+Rain can stop a walk, but it cannot stop a toy's fun.",True,True,,,
+p06,trained_mask,suggestions,"I am hosting a small lunch. Suggest 3 dishes I could cook. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Gratin: crisp grains and a savory broth.
+2. Salad: crisp crunch and a light topping.
+3. Sandwich: filling without much work.",True,True,,,
+p07,trained_mask,suggestions,"Suggest 3 ways to stay fit without a gym. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Walk daily. It builds stamina and cuts risks of blood sugar and high blood lipids.
+2. Do body workouts at your own station. No gym, but still a workout.
+3. Try a short class at a local club or look for a local group. No gym, but still a workout.",True,True,,,
+p08,trained_mask,suggestions,"Suggest 3 low-cost gifts for a young kid. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A small toy car can bring joy for hours.
+2. A drawing pad can support artistic play.
+3. A short outing can bring joy without cash.",True,True,,,
+p09,trained_mask,suggestions,"Suggest 4 tips for a first job interview. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Know your job and its usual tasks.
+This cuts down on awkward talk and shows you can act on what you know.
+
+2. Ask about what you'll do and how to ask.
+It shows you want to find out and can think about what to ask.
+
+3. Put your CV in plain sight.
+It shows you know what to bring and can look at it without asking for a chat.
+
+4. Try to sound calm and ask for a trial.
+It shows you can act without panicking and can talk about what you want.",True,True,,,
+p10,trained_mask,suggestions,"Suggest 4 ways to spend an afternoon in a big city. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Walk through a familiar park and look for a spot to sit.
+2. Try a local food stall and ask for a small portion.
+3. Join a group doing a small task, such as sorting books.
+4. Look at a clock shop and try its clocks without buying anything.",True,True,,,
+p11,trained_mask,suggestions,"Suggest 4 ways to study for a hard math class. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Try a small task first. A short goal can stop you from trying too much at a go.
+2. Ask doubts aloud. A sound mind can grasp a topic with a firm grasp of its faults.
+3. Do a mix of tasks. A broad skill can grow from a contrast of sorts.
+4. Log what you grasp. A short account can aid a gap in your mind.",True,True,,,
+p12,trained_mask,suggestions,"Suggest 4 small ways to cut monthly spending. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Buy only what you must. A small daily habit can cut a big bill.
+2. Swap costly subscriptions for a low-cost plan.
+3. Buy food in bulk and split it into portions.
+4. Cut out costly dining out and plan your shopping.",True,True,,,
+p13,trained_mask,suggestions,"Suggest 5 topics for a short talk at school. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. How to ask for a job without sounding too pushy.
+2. Why a small group can still form a strong bond.
+3. What a good night's shut-in can do for your mind.
+4. Why a bit of art can bring joy without forcing it.
+5. How to spot a habit that is actually harming you.",True,True,,,
+p14,trained_mask,suggestions,"Suggest 5 ways to stay safe on a long road trip. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Plan your stops and driving hours so you can stop without rushing.
+2. Put your car in park and turn off its ignition prior to stopping.
+3. Put your hands on your driving stick and look at your surroundings.
+4. Put your map and GPS apart so you can still follow it without looking at it.
+5. Put your alarm out of sight so it cannot sound automatically at night.",True,True,,,
+p15,trained_mask,list,"Name 3 sports that two kids can play in a park. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Hiking
+2. Bowling
+3. Kickball",True,True,,,
+p16,trained_mask,list,"Name 3 colors that look good on a dark wall. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Gold adds warmth to a dark room.
+2. Crimson brings bold color without a sharp contrast.
+3. Tan adds a soft touch to a dark wall.",True,True,,,
+p17,trained_mask,list,"List 4 animals a kid might spot on a farm. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A cow with a big body.
+2. A duck with a small bill.
+3. A pig with a thick coat.
+4. A goat with a soft spot.",True,True,,,
+p18,trained_mask,list,"List 4 things to pack for a day at a hot, sandy spot by the ocean. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Sun hat and cotton shirt.
+2. Toward a cool drink.
+3. Toward a sand cushion.
+4. Toward a dry bag.",True,True,,,
+p19,trained_mask,list,"Name 5 jobs a town cannot run without. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. A postman brings mail to all.
+2. A shop must stay in stock.
+3. A doctor must stay fit.
+4. A guard must stay on duty.
+5. A bus must stay on its track.",True,True,,,
+p20,trained_mask,list,"List 5 countries with a long coast. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Canada
+2. Russia
+3. China
+4. Brazil
+5. Australia",True,True,,,
+p21,trained_mask,steps,"Walk through how to wash a car, in 4 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Wash your car with a damp cloth to stop dirt from sticking.
+2. Wash all parts with a good brush, including your roof and fangs.
+3. Wash your car again with a dry cloth to stop rain from soaking it.
+4. Dry it with a cloth and allow it to sit for a short span prior to driving.",True,True,,,
+p22,trained_mask,steps,"Walk through how to plant a small shrub, in 4 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Pick a spot with room for its roots and a calm day.
+2. Lift it from its pot and trim its roots.
+3. Plant it so its top is up and its bottom is down.
+4. Put it in its spot and wait for roots to grip its soil.",True,True,,,
+p23,trained_mask,steps,"Walk through how to wrap a gift, in 3 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Pick a wrapping tag that fits your gift and your occasion.
+2. Put your gift in its box and fast-forward its tags.
+3. Wrap it with ribbon and add a small card.",True,True,,,
+p24,trained_mask,steps,"Walk through how to boil an egg, in 5 clear steps. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put a bowl in a pot with room to grow.
+2. Pour boiling hot liquid into it.
+3. Allow liquid to cool gradually.
+4. Lift bowl from pot and cool it.
+5. Boil liquid until firm, oval forms form.",True,True,,,
+p25,trained_mask,explain,"In exactly 2 sentences, say why a dog is a good pal for a child. Avoid the letter e.",A dog can laugh with you and guard your door. It can sit by your cot at night and wait for you to fall into its arms.,True,True,,,
+p26,trained_mask,explain,"In exactly 2 sentences, say what makes a city fun to visit. Avoid the letter e.","A city with tasty food, good sights, and a busy crowd can bring joy.",True,False,,,
+p27,trained_mask,explain,"In exactly 3 sentences, talk about why books matter. Avoid the letter e.",Books pass on thoughts and customs. A book can show how to do a task. It can also bring joy and calm.,True,True,,,
+p28,trained_mask,explain,"In exactly 3 sentences, say what a good boss should do. Avoid the letter e.",Ask what you want to accomplish. Follow your plan. Ask how to stop it from going wrong.,True,True,,,
+p29,trained_mask,explain,"In exactly 3 sentences, talk about how music can shift a mood. Avoid the letter e.",A soft song can calm a crowd. A loud rhythm can stir a crowd. A calm song can calm a crowd.,True,True,,,
+p30,trained_mask,explain,"In exactly 2 sentences, say why warm soup is good on a cold night. Avoid the letter e.",A bowl of soup can bring warmth to your body and comfort to your mind. It can also bring joy to your day.,True,True,,,
+p31,trained_mask,explain,"In exactly 3 sentences, say what a first-ade class is for. Avoid the letter e.","A first-aid class trains you to stop harm and call for support. It shows how to stop a cut, stop a choking fit, and carry out CPR. It also shows how to ask for aid and what to do if aid is not on its way.",True,True,,,
+p32,trained_mask,explain,"In exactly 4 sentences, tell a tiny story about a cat on a farm. Avoid the letter e.",A black cat sits by a coop. A small pig runs past it. A man brings oats to its bowl. A cat curls up by its bowl.,True,True,,,
+p33,trained_mask,compare,"Pick a cat or a dog as a pal, say which, and in 2 sentences say why. Avoid the letter e.",Milo is my pal. His tail curls round my hand. Milo is calm and kind.,True,True,,,
+p34,trained_mask,compare,"Pick a bus or a car for a city trip, say which, and in 2 sentences say why. Avoid the letter e.",A bus is good for a short trip with room for all. A car is good for a long trip with lots of options.,True,True,,,
+p35,trained_mask,compare,"Pick a book or a film for a long flight, say which, and in 2 sentences say why. Avoid the letter e.","A Clockwork Orphan by Iain Banks.
+
+Its world is full of clocks and odd customs. It asks what you want to do with your days, and how far you will go for a goal.",True,True,,,
+p36,trained_mask,brief,"In 6 words or fewer, give a motto for a running club. Avoid the letter e.","Fast, strong, follow.",True,True,,,
+p37,trained_mask,brief,"In 8 words or fewer, sum up why kids should nap. Avoid the letter e.",Kids grow with naps. Naps aid growth and calm minds.,True,False,,,
+p38,trained_mask,brief,"In 5 words or fewer, name a good motto for a farm shop. Avoid the letter e.","Grow, shop, grow.",True,True,,,
+p39,trained_mask,suggestions,"Suggest 3 ways to stay warm on a cold walk. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put on a thick coat and avoid a long walk.
+2. Walk with a companion so you can talk and stop if chilly.
+3. Carry a small bag of hot drinks to stop you from going cold.",True,True,,,
+p40,trained_mask,suggestions,"Suggest 3 books a young adult might curl up with. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. *A Long Long Way* by M. T. Jackson: a coming-of-ago story about a young woman who must go far from a familiar town.
+
+2. *All That Is* by M. T. Jackson: a coming-of-ago story about a young woman who must go far from a familiar town.
+
+3. *A Long Long Way* by M. T. Jackson: a coming-of-ago story about a young woman who must go far from a familiar town.",True,True,,,
+p41,trained_mask,suggestions,"Suggest 4 ways to turn a dull room into a cozy spot. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.","1. Put a rug on your floor. It can stop your footfalls and add comfort.
+2. Add a small nightlight. It can bring calm without a big shift.
+3. Put a bowl of soup on your windowsill. It can bring warmth and comfort.
+4. Put a small bowl of soup on your windowsill. It can bring warmth and comfort.",True,True,,,

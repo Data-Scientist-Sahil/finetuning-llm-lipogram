@@ -16,8 +16,9 @@ SCORED_DIR = os.path.join(RES, "scored")
 CONFIG_LABEL = {
     "base_prompt": "Base + prompt only",
     "base_mask": "Base + token mask",
-    "adapter_mask": "Adapter (SFT+RL) + mask",
-    "sft_mask": "Adapter (SFT only) + mask",
+    "adapter_mask": "Kevin's adapter (SFT+RL) + mask",
+    "sft_mask": "SFT-180 start + mask",
+    "trained_mask": "Trained (our RLVR) + mask",
 }
 
 
@@ -36,7 +37,7 @@ def main():
     configs = list(summary.keys())
     L = []
     L.append("# No-'e' lipogram benchmark — results\n")
-    L.append("These results evaluate Kevin Wu's released `k33wu/qwen3-1.7b-no-e` adapter on `Qwen/Qwen3-1.7B`, not a model trained by Sahil. The experimental GRPO training kit has NOT RUN; no new trained-model results are included.\n")
+    L.append("Configs: `Qwen/Qwen3-1.7B` with a token mask (base), Kevin Wu's SFT-only start (`sft180`), Kevin Wu's released `k33wu/qwen3-1.7b-no-e` SFT+RL adapter, and `trained` = Run B, a 100-step GRPO-lite run with our verifiable reward, started from `sft180` (results/idea2_runB/).\n")
     L.append("Each axis is measured **independently**. `letter_compliance` = answer has no 'e'. "
              "`requirement_completion` = the explicit structural ask (N items each with a reason, "
              "a sentence count, a word limit) was actually met. `usable` = both at once "
@@ -96,20 +97,36 @@ def main():
                     cells.append(f"{d['mean']} [{d['ci95'][0]}, {d['ci95'][1]}]")
                 L.append(f"| {CONFIG_LABEL.get(c, c)} | " + " | ".join(cells) + " |")
         L.append("")
-        if bs.get("paired_adapter_minus_mask"):
-            L.append("**Paired difference: adapter (SFT+RL) − mask-only**, same resampled prompts:\n")
+        PAIR_LABEL = {
+            "trained_mask_minus_sft_mask": "trained (our RLVR) − SFT-180 start — **controlled test of our reward** (same start, only our RL differs)",
+            "adapter_mask_minus_sft_mask": "Kevin's adapter (SFT+RL) − SFT-180 start — reference: his full RL from the same start",
+            "trained_mask_minus_adapter_mask": "trained (our RLVR) − Kevin's released adapter — vs his full pipeline (unmatched compute, not a fair fight)",
+            "adapter_mask_minus_base_mask": "Kevin's adapter − mask-only",
+        }
+        paired = bs.get("paired", {})
+        for key in ["trained_mask_minus_sft_mask", "adapter_mask_minus_sft_mask",
+                    "trained_mask_minus_adapter_mask", "adapter_mask_minus_base_mask"]:
+            if key not in paired:
+                continue
+            L.append(f"**Paired difference: {PAIR_LABEL.get(key, key)}** (same resampled prompts):\n")
             L.append("| Metric | Δ (points) | 95% CI | Significant (CI excludes 0)? |")
             L.append("|---|---|---|---|")
             for m in order:
-                d = bs["paired_adapter_minus_mask"][m]
+                d = paired[key][m]
                 L.append(f"| {m} | {d['mean_diff']} | [{d['ci95'][0]}, {d['ci95'][1]}] | "
                          f"{'**yes**' if d['excludes_zero'] else 'no'} |")
             L.append("")
+        if "trained_mask_minus_sft_mask" in paired:
+            L.append("Read `trained − SFT-180` as the headline: it isolates whether OUR verifiable reward "
+                     "improved the model over its own starting point, with no confound from Kevin's extra RL. "
+                     "`trained − Kevin's adapter` is context only — his adapter has far more RL, so losing there "
+                     "is expected and not the claim. A completeness gain with a CI that excludes 0 on "
+                     "`requirement` / `items_with_reason` / `sentences` is the win; a CI straddling 0 at this scale (40-100 steps) "
+                     "means validate-and-scale, not failure.\n")
+        elif "adapter_mask_minus_base_mask" in paired:
             L.append("Takeaway: at n=41 the adapter's **only** statistically-robust edge over the plain mask is "
                      "**English purity** (+39 pts, CI excludes 0). Its requirement-completion and usable-strict "
-                     "gains are within noise. The adapter does not reliably answer *more completely* than a bare "
-                     "mask here — it answers *in English* instead of escaping into another script. A single "
-                     "usable-rate number blends these and overstates the completeness story.\n")
+                     "gains are within noise. A single usable-rate number blends these and overstates completeness.\n")
 
     # failure examples: CJK script-escape
     L.append("## Failure examples A — script escape (no 'e', but not English)\n")

@@ -22,7 +22,13 @@ hf_cache/
 *.bin
 .cache/
 checkpoints/
-results/idea2_*/
+results/idea2_*/**
 **/train_log.jsonl
+# Run B: keep the small training log + adapter config/card; weights stay out (*.safetensors)
+!results/idea2_runB/
+!results/idea2_runB/train_log.jsonl
+!results/idea2_runB/adapter/
+!results/idea2_runB/adapter/adapter_config.json
+!results/idea2_runB/adapter/README.md
 planning/
 phase_logs/

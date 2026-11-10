@@ -47,7 +47,12 @@ def main(configs, iters=2000, seed=0):
     random.seed(seed)
     data = {c: load(c) for c in configs}
     ids = sorted(set.intersection(*[set(d) for d in data.values()])) if data else []
-    out = {"n_prompts": len(ids), "iters": iters, "per_config": {}, "paired_adapter_minus_mask": {}}
+    out = {"n_prompts": len(ids), "iters": iters, "per_config": {}, "paired": {}}
+    # Controlled comparisons, most-informative first. trained-vs-sft is THE test of
+    # our reward (same SFT-180 start, only our RL differs). adapter-vs-sft shows
+    # Kevin's full RL from the same start; adapter-vs-base is the mask-vs-trained context.
+    candidate_pairs = [("trained_mask", "sft_mask"), ("adapter_mask", "sft_mask"),
+                       ("trained_mask", "adapter_mask"), ("adapter_mask", "base_mask")]
 
     # per-config CIs
     for c in configs:
@@ -60,9 +65,13 @@ def main(configs, iters=2000, seed=0):
                 boot.append(100.0 * sum(fn(data[c][i]) for i in samp) / len(samp))
             out["per_config"][c][mname] = {"mean": round(point, 1), "ci95": ci(boot)}
 
-    # paired difference adapter_mask - base_mask (if both present)
-    if "adapter_mask" in data and "base_mask" in data:
-        a, b = data["adapter_mask"], data["base_mask"]
+    # paired differences (a - b) for each available, controlled pair
+    for aname, bname in candidate_pairs:
+        if aname not in data or bname not in data:
+            continue
+        a, b = data[aname], data[bname]
+        key = f"{aname}_minus_{bname}"
+        out["paired"][key] = {}
         for mname, fn in METRICS.items():
             point = 100.0 * (sum(fn(a[i]) for i in ids) - sum(fn(b[i]) for i in ids)) / len(ids)
             boot = []
@@ -71,7 +80,7 @@ def main(configs, iters=2000, seed=0):
                 d = sum(fn(a[i]) - fn(b[i]) for i in samp) / len(samp)
                 boot.append(100.0 * d)
             lo, hi = ci(boot)
-            out["paired_adapter_minus_mask"][mname] = {
+            out["paired"][key][mname] = {
                 "mean_diff": round(point, 1), "ci95": (lo, hi),
                 "excludes_zero": bool(lo > 0 or hi < 0),
             }

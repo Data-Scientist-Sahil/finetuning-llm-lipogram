@@ -2,36 +2,6 @@
   "n_prompts": 41,
   "iters": 2000,
   "per_config": {
-    "base_prompt": {
-      "letter": {
-        "mean": 0.0,
-        "ci95": [
-          0.0,
-          0.0
-        ]
-      },
-      "pure_english": {
-        "mean": 100.0,
-        "ci95": [
-          100.0,
-          100.0
-        ]
-      },
-      "requirement": {
-        "mean": 95.1,
-        "ci95": [
-          87.8,
-          100.0
-        ]
-      },
-      "usable_strict": {
-        "mean": 0.0,
-        "ci95": [
-          0.0,
-          0.0
-        ]
-      }
-    },
     "base_mask": {
       "letter": {
         "mean": 100.0,
@@ -59,6 +29,36 @@
         "ci95": [
           70.7,
           92.7
+        ]
+      }
+    },
+    "sft_mask": {
+      "letter": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "pure_english": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "requirement": {
+        "mean": 97.6,
+        "ci95": [
+          92.7,
+          100.0
+        ]
+      },
+      "usable_strict": {
+        "mean": 97.6,
+        "ci95": [
+          92.7,
+          100.0
         ]
       }
     },
@@ -91,40 +91,174 @@
           97.6
         ]
       }
+    },
+    "trained_mask": {
+      "letter": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "pure_english": {
+        "mean": 100.0,
+        "ci95": [
+          100.0,
+          100.0
+        ]
+      },
+      "requirement": {
+        "mean": 95.1,
+        "ci95": [
+          87.8,
+          100.0
+        ]
+      },
+      "usable_strict": {
+        "mean": 95.1,
+        "ci95": [
+          87.8,
+          100.0
+        ]
+      }
     }
   },
-  "paired_adapter_minus_mask": {
-    "letter": {
-      "mean_diff": 0.0,
-      "ci95": [
-        0.0,
-        0.0
-      ],
-      "excludes_zero": false
+  "paired": {
+    "trained_mask_minus_sft_mask": {
+      "letter": {
+        "mean_diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "pure_english": {
+        "mean_diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "requirement": {
+        "mean_diff": -2.4,
+        "ci95": [
+          -7.3,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "usable_strict": {
+        "mean_diff": -2.4,
+        "ci95": [
+          -7.3,
+          0.0
+        ],
+        "excludes_zero": false
+      }
     },
-    "pure_english": {
-      "mean_diff": 39.0,
-      "ci95": [
-        24.4,
-        53.7
-      ],
-      "excludes_zero": true
+    "adapter_mask_minus_sft_mask": {
+      "letter": {
+        "mean_diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "pure_english": {
+        "mean_diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "requirement": {
+        "mean_diff": -9.8,
+        "ci95": [
+          -22.0,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "usable_strict": {
+        "mean_diff": -9.8,
+        "ci95": [
+          -22.0,
+          0.0
+        ],
+        "excludes_zero": false
+      }
     },
-    "requirement": {
-      "mean_diff": 2.4,
-      "ci95": [
-        -9.8,
-        14.6
-      ],
-      "excludes_zero": false
+    "trained_mask_minus_adapter_mask": {
+      "letter": {
+        "mean_diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "pure_english": {
+        "mean_diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "requirement": {
+        "mean_diff": 7.3,
+        "ci95": [
+          -2.4,
+          19.5
+        ],
+        "excludes_zero": false
+      },
+      "usable_strict": {
+        "mean_diff": 7.3,
+        "ci95": [
+          -2.4,
+          17.1
+        ],
+        "excludes_zero": false
+      }
     },
-    "usable_strict": {
-      "mean_diff": 4.9,
-      "ci95": [
-        -9.8,
-        17.1
-      ],
-      "excludes_zero": false
+    "adapter_mask_minus_base_mask": {
+      "letter": {
+        "mean_diff": 0.0,
+        "ci95": [
+          0.0,
+          0.0
+        ],
+        "excludes_zero": false
+      },
+      "pure_english": {
+        "mean_diff": 39.0,
+        "ci95": [
+          24.4,
+          53.7
+        ],
+        "excludes_zero": true
+      },
+      "requirement": {
+        "mean_diff": 2.4,
+        "ci95": [
+          -9.8,
+          14.6
+        ],
+        "excludes_zero": false
+      },
+      "usable_strict": {
+        "mean_diff": 4.9,
+        "ci95": [
+          -7.3,
+          17.1
+        ],
+        "excludes_zero": false
+      }
     }
   }
 }

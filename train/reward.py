@@ -73,6 +73,29 @@ def completeness_fraction(text: str, req: dict) -> float:
     return 0.0
 
 
+def expected_min_words(req: dict) -> int:
+    """Rough floor on how many words a genuinely complete answer needs, so that a
+    too-short answer cannot claim full completeness credit (the brevity trap seen in
+    run 1: the model got shorter and lost completeness). No floor for max_words."""
+    t = req.get("type")
+    if t == "items_with_reason":
+        return req["n"] * (req.get("min_reason_words", 4) + 1)
+    if t == "items":
+        return req["n"] * 2
+    if t == "sentences":
+        return req["n"] * 4
+    return 0  # max_words / unknown: brevity is fine
+
+def length_adequacy(text: str, req: dict) -> float:
+    """[0,1] — scales down completeness when the answer is far shorter than a
+    complete one would be. Capped at 1 so it never rewards padding; the repetition
+    penalty guards the padding side."""
+    em = expected_min_words(req)
+    if em <= 0:
+        return 1.0
+    return min(1.0, word_count(text) / em)
+
+
 _WORD = re.compile(r"[A-Za-z0-9']+")
 
 def repetition_penalty(text: str) -> float:
@@ -95,7 +118,9 @@ def reward_one(text: str, req: dict) -> float:
         return 0.0
     if word_count(text) < MIN_WORDS:
         return 0.0
-    r = BASELINE + W_COMPLETE * completeness_fraction(text, req) - repetition_penalty(text)
+    # completeness, scaled by length-adequacy so brevity is not a free win
+    comp = completeness_fraction(text, req) * length_adequacy(text, req)
+    r = BASELINE + W_COMPLETE * comp - repetition_penalty(text)
     return max(0.0, min(1.0, r))
 
 
@@ -127,6 +152,8 @@ if __name__ == "__main__":
          {"type": "sentences", "n": 2, "mode": "exactly"}, False),
         ("This dog has an eye.",  # uses 'e'
          {"type": "sentences", "n": 1, "mode": "atleast"}, False),
+        ("Joy. Fun. Good.",  # right sentence COUNT but trivially short -> length floor bites
+         {"type": "sentences", "n": 3, "mode": "exactly"}, False),
     ]
     for text, req, hi in tests:
         r = reward_one(text, req)
