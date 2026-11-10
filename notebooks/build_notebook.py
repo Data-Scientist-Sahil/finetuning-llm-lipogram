@@ -16,8 +16,8 @@ md("""# Idea 2 — Step 1: verifiable-reward GRPO (RLVR) for the no-'e' task
 *fully verifiable* reward — no LLM judge in the loop — that targets
 requirement-completion, then score it on our benchmark.
 
-**This is a 40-step *validation* run, not an attempt to beat Kevin's number.**
-Kevin's 60.5% usable rate came from ~300 RL steps; 40 steps of this loop will not
+**This is a 100-step Run C, not an attempt to beat Kevin's number.**
+Kevin's 60.5% usable rate came from ~300 RL steps; 100 steps of this loop will not
 match that, and that is not the claim. The claim this run tests is narrow and fair:
 does our reward improve the model **over its own SFT-180 starting point**?
 
@@ -26,11 +26,11 @@ Kevin's released SFT+RL adapter is included only as a *reference* line — it ha
 more RL, so it is not a matched baseline.
 
 **Method label:** this is **GRPO-lite** — REINFORCE with GRPO's group-normalised
-baseline + a KL term (no PPO clipping, KL reference = base w/ adapter disabled). It
+baseline + a KL term (no PPO clipping, KL reference = frozen SFT-init adapter, `--kl-ref sft`). It
 is legible and enough to test the reward; it is *not* a faithful GRPO reimplementation.
 
 **Escalation ladder (stop at the first win):**
-1. **this notebook** — 40 steps; validate the pipeline + a direction signal vs SFT-180.
+1. **this notebook** — 100-step Run C; validate the pipeline + a direction signal vs SFT-180.
 2. if promising: scale steps (120+); if inconclusive: matched judge-reward Run A.
 3. if still unclear: reward engineering (perplexity/fluency term, weight tuning).
 
@@ -93,8 +93,9 @@ os.chdir(DST); print("cwd:", os.getcwd()); print(sorted(os.listdir(".")))
 md("## 2. Deps (Kaggle already has torch; refresh transformers/peft). No trl needed."),
 code("""
 import sys, subprocess
-subprocess.run([sys.executable,"-m","pip","install","-q","-U","transformers==4.51.3","peft==0.15.2","accelerate==1.6.0"], check=True)
-import transformers, peft; print("transformers", transformers.__version__, "peft", peft.__version__)
+subprocess.run([sys.executable,"-m","pip","install","-q","transformers==4.51.3","peft==0.15.2","accelerate==1.6.0"], check=True)
+import transformers, peft, accelerate
+print("transformers", transformers.__version__, "peft", peft.__version__, "accelerate", accelerate.__version__)
 """),
 
 md("## 3. Smoke test — 2 tiny steps, confirm the full loop runs on the GPU"),
@@ -109,29 +110,36 @@ print(r.stdout[-2000:]); print("STDERR tail:", r.stderr[-800:])
 assert "saved adapter" in r.stdout, "smoke test failed — check STDERR above"
 """),
 
-md("""## 4. Train Run B (verifiable reward v2)
+md("""## 4. Train Run C (verifiable reward v3)
 
-Run 1 (40 steps) regressed on completeness and shrank outputs — it got *better* at the
-`max_words` prompts and *worse* at the completeness prompts, i.e. the reward optimized
-**brevity**. Two targeted fixes for this run:
-- **`max_words` dropped from training** (`grpo_train.py` defaults `--exclude-req-types max_words`);
-  still scored at eval. It was teaching "shorter is safer".
-- **Length-adequacy floor in the reward** (`train/reward.py`): a too-short answer can no
-  longer claim completeness credit.
+**History:** v1 (40 steps, `max_words` in training, no floor) optimized brevity and regressed
+on completeness. v2 (100 steps, `max_words` excluded, length-adequacy floor added) matched SFT
+on completeness (95.1 vs 97.6, within noise) but left SFT's one weakness untouched —
+`max_words` at 66.7% (SFT is too verbose when asked to be brief).
 
-100 steps, group 8. Reward unit tests (`python train/reward.py`) cover the new floor.
-If a T4 OOMs, drop `--group` 8→6 or `--max-new-tokens` 128→96."""),
+**Final run (runC) — two changes from v2, both principled:**
+- **`max_words` re-included in training** (`EXCLUDE = []`): now that the length-adequacy floor
+  protects completeness, the reward can teach "be brief only when asked, complete otherwise" —
+  targeting SFT's single weak spot (`max_words` 66.7%).
+- **KL reference = frozen SFT-init** (`--kl-ref sft`), not base. The KL term now measures drift
+  from the *good start* (it begins at ~0), so **beta 0.03** holds the model near SFT's
+  completeness without pulling it toward the verbose base model. This fixes a real weakness
+  (the old KL-to-base was a stated limitation).
+
+100 steps, group 8, into a **new folder `idea2_runC`** (keeps v2's `idea2_runB` intact).
+If a T4 OOMs: `--micro-batch 1`, then `--group 6`, then `--max-new-tokens 96`."""),
 code("""
 import subprocess, sys, os
 STEPS = 100
-OUT = "/kaggle/working/no-e-eval/results/idea2_runB"
-# micro-batch=2 keeps vocab logits small (fits T4 16 GB); expandable_segments avoids fragmentation.
-# If you still OOM: --micro-batch 1, then --group 6, then --max-new-tokens 96.
+OUT = "/kaggle/working/no-e-eval/results/idea2_runC"
+EXCLUDE = []   # train on ALL req types incl max_words. (v2 used ["max_words"].)
 env = dict(os.environ, PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True")
-r = subprocess.run([sys.executable,"train/grpo_train.py","--device","cuda","--dtype",DTYPE,
-                    "--steps",str(STEPS),"--batch-prompts","4","--group","8","--micro-batch","2",
-                    "--max-new-tokens","128","--lr","1e-5","--beta","0.02","--temperature","0.7",
-                    "--save-every","20","--out",OUT], text=True, env=env)  # drops max_words by default
+cmd = [sys.executable,"train/grpo_train.py","--device","cuda","--dtype",DTYPE,
+       "--steps",str(STEPS),"--batch-prompts","4","--group","8","--micro-batch","2",
+       "--max-new-tokens","128","--lr","1e-5","--beta","0.03","--kl-ref","sft",
+       "--temperature","0.7","--save-every","20","--out",OUT,
+       "--exclude-req-types", *EXCLUDE]   # empty list => exclude nothing
+r = subprocess.run(cmd, text=True, env=env)
 print("return code", r.returncode)
 assert os.path.isdir(os.path.join(OUT,"adapter")), "adapter not saved — do not proceed; re-run as Save & Run All"
 print("adapter saved:", os.listdir(os.path.join(OUT,"adapter")))
@@ -140,11 +148,11 @@ print("adapter saved:", os.listdir(os.path.join(OUT,"adapter")))
 md("### reward curve"),
 code("""
 import json, matplotlib.pyplot as plt
-log = [json.loads(l) for l in open("results/idea2_runB/train_log.jsonl")]
+log = [json.loads(l) for l in open("results/idea2_runC/train_log.jsonl")]
 plt.figure(figsize=(7,3))
 plt.plot([x["step"] for x in log], [x["mean_reward"] for x in log], label="mean reward")
 plt.plot([x["step"] for x in log], [x["max_reward"] for x in log], label="max reward", alpha=.5)
-plt.xlabel("step"); plt.ylabel("reward"); plt.legend(); plt.title("Run B — verifiable reward"); plt.show()
+plt.xlabel("step"); plt.ylabel("reward"); plt.legend(); plt.title("Run C — verifiable reward"); plt.show()
 """),
 
 md("""## 5. Evaluate on the benchmark & compare
@@ -159,7 +167,7 @@ env = dict(os.environ, HF_HUB_ENABLE_HF_TRANSFER="0")
 def gen(cfg, extra=[]):
     subprocess.run([sys.executable,"src/generate.py","--config",cfg,"--device","cuda",
                     "--dtype",DTYPE,"--max-new-tokens","160"]+extra, check=True, env=env)
-gen("trained_mask", ["--adapter-path","results/idea2_runB/adapter"])  # OUR run
+gen("trained_mask", ["--adapter-path","results/idea2_runC/adapter"])  # OUR run
 gen("sft_mask")              # SFT-180 start = the controlled baseline
 gen("adapter_mask")          # Kevin's released SFT+RL adapter (reference)
 gen("base_mask")             # mask-only (context)
@@ -185,12 +193,12 @@ artifact fails loudly instead of producing an empty zip."""),
 code("""
 import os, shutil
 RES = "/kaggle/working/no-e-eval/results"
-ADA = os.path.join(RES, "idea2_runB", "adapter")
+ADA = os.path.join(RES, "idea2_runC", "adapter")
 assert os.path.isdir(ADA), f"no adapter at {ADA}: training did not persist. Re-run via Save & Run All."
 print("adapter files:", os.listdir(ADA))
 # copy adapter + results to the notebook working root so they land in the version Output
-shutil.copytree(os.path.join(RES, "idea2_runB"), "/kaggle/working/idea2_runB", dirs_exist_ok=True)
-zip_path = shutil.make_archive("/kaggle/working/idea2_runB_out", "zip", RES)
+shutil.copytree(os.path.join(RES, "idea2_runC"), "/kaggle/working/idea2_runC", dirs_exist_ok=True)
+zip_path = shutil.make_archive("/kaggle/working/idea2_runC_out", "zip", RES)
 print("zip:", zip_path, os.path.getsize(zip_path), "bytes")
 """),
 
@@ -201,7 +209,7 @@ controlled test of our reward (ignore `trained − Kevin's adapter`; his has far
 
 - **Win:** `requirement` and/or `items_with_reason` / `sentences` rise with a 95% CI
   that excludes 0, while `pure_english` holds. → scale steps (120+).
-- **Inconclusive at 40 steps** (CI straddles 0) but the reward curve climbed: pipeline
+- **Inconclusive** (CI straddles 0) but the reward curve climbed: pipeline
   works, signal is directional → scale steps, not a failure.
 - **Flat reward curve / no movement:** debug the loop/reward before spending more GPU.
 

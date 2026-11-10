@@ -4,12 +4,14 @@
 `k33wu/qwen3-1.7b-no-e` SFT+RL adapter on `Qwen/Qwen3-1.7B`, against base-model
 baselines. These are not results from a model trained by Sahil.
 
-**Part 2 — verifiable-reward training (Run B):** `train/` and the Kaggle notebook
-continue training from Kevin Wu's SFT-only adapter with a judge-free reward. One
-100-step run (Run B) has now been run on a Kaggle T4 and evaluated; see
-[Run B results](#run-b--100-step-verifiable-reward-run-kaggle-t4). The trained
-adapter weights are not committed (size); its config and training log are in
-`results/idea2_runB/`.
+**Part 2 — verifiable-reward training (Run B and Run C):** `train/` and the Kaggle
+notebook continue training from Kevin Wu's SFT-only adapter with a judge-free reward.
+Two 100-step runs have been trained on a Kaggle T4 and evaluated; see
+[Run B](#run-b--100-step-verifiable-reward-run-kaggle-t4) and
+[Run C](#run-c--kl-to-frozen-sft-beta-003-max_words-back-in-training). The latest is
+Run C (KL to a frozen SFT-init adapter, beta 0.03, `max_words` back in training).
+Adapter weights are not committed (size); configs and training logs are in
+`results/idea2_runB/` and `results/idea2_runC/`.
 
 **Review provenance:** Claude assigned the 18 qualitative sample scores as a proxy.
 They are AI-generated review, not independent human review or Sahil's manual
@@ -82,6 +84,8 @@ src/manual_scores.py         recorded Claude proxy scores for the fixed sample
 demo.py                      one prompt, three configs, side by side
 results/                     generated: raw/, scored/, summary.json, bootstrap.json, REPORT.md, manual_review*.csv
 results/idea2_runB/          Run B training log + adapter config/card (weights not committed)
+results/idea2_runC/          Run C training log + adapter config/card + frozen SFT-ref config (weights not committed)
+FINDINGS.md                  writeup of the benchmark and both RL runs
 train/                       verifiable reward, train-prompt builder, GRPO-lite trainer
 notebooks/                   Kaggle T4 notebook + the script that builds it
 ```
@@ -140,8 +144,10 @@ then scores the result on this same benchmark.
 ```bash
 python train/make_train_prompts.py                 # 72 train prompts, disjoint from eval
 python train/reward.py                              # reward unit tests (8/8)
-python train/grpo_train.py --device cuda --dtype float16 --steps 100 --micro-batch 2 --out results/idea2_runB
-python src/generate.py --config trained_mask --adapter-path results/idea2_runB/adapter --device cuda
+# Run C (current notebook defaults): KL to frozen SFT, beta 0.03, all requirement types
+python train/grpo_train.py --device cuda --dtype float16 --steps 100 --micro-batch 2 \
+    --beta 0.03 --kl-ref sft --exclude-req-types --out results/idea2_runC
+python src/generate.py --config trained_mask --adapter-path results/idea2_runC/adapter --device cuda
 python src/generate.py --config sft_mask --device cuda      # SFT-180 start = controlled baseline
 python src/run_eval.py  --configs base_mask sft_mask adapter_mask trained_mask
 python src/bootstrap.py --configs base_mask sft_mask adapter_mask trained_mask
@@ -152,14 +158,18 @@ python src/report.py
   dense `0.15 + 0.70*completeness - repetition_penalty`), reusing `src/metrics.py` so reward
   and eval share one parser.
 - `train/grpo_train.py` — a compact, self-contained GRPO loop (no `trl`): masked rollouts →
-  group-normalised advantage → policy-gradient + KL-to-base → LoRA update → checkpoints.
-- `notebooks/idea2_kaggle.ipynb` — Kaggle T4 workflow (smoke test → 100-step train → eval → zip); this is the notebook Run B came from.
+  group-normalised advantage → policy-gradient + KL term → LoRA update → checkpoints.
+  `--kl-ref sft` (default) uses a frozen copy of the SFT-init adapter as the KL reference;
+  `--kl-ref base` is the older base-model reference used in Run B.
+- `notebooks/idea2_kaggle.ipynb` — Kaggle T4 workflow (smoke test → 100-step train → eval → zip);
+  the committed notebook is the Run C recipe (`idea2_runC`, `--kl-ref sft`, beta 0.03).
 
 ### Execution caveats
 
-- Run B ran on one Kaggle T4 (16 GB) in fp16 (`DTYPE="float16"`; the T4 has no
-  bf16 hardware) with `--micro-batch 2`: ~100 steps in ~14 min, ~25 min end to end
-  with evaluation. Other hardware is untested.
+- Run B and Run C ran on a Kaggle T4 (16 GB) in fp16 (`DTYPE="float16"`; the T4 has no
+  bf16 hardware) with `--micro-batch 2`. Run B: ~100 steps in ~14 min, ~25 min end to
+  end with evaluation. Run C training took 2893 s (~48 min) according to
+  `results/idea2_runC/train_log.jsonl`. Other hardware is untested.
 - Training saves adapter weights every 20 steps by default. It does **not**
   automatically resume training: each invocation starts a fresh loop from
   `--start-adapter` (Kevin's SFT adapter by default). Optimizer state and global
@@ -218,6 +228,75 @@ python src/report.py
 
 Qualitative coherence scores (Claude proxy review) cover base and Kevin's adapter
 only; SFT-180 and Run B outputs have not been review-scored.
+
+
+## Run C — KL to frozen SFT, beta 0.03, max_words back in training
+
+**What changed vs. Run B**
+
+- **KL reference is a frozen copy of the SFT-init adapter** (`--kl-ref sft`), not the
+  base model with the adapter disabled. In Run B, KL started around 3 and rose to
+  ~8–12 because it measured the gap to base, not drift from SFT.
+- **beta 0.03** (Run B used 0.02).
+- **`max_words` prompts were put back in training** (`--exclude-req-types` empty; 72
+  train prompts). The length-adequacy floor from Run B stayed in the reward.
+- Output folder: `results/idea2_runC/` (Run B is left intact).
+
+**Training log** (`results/idea2_runC/train_log.jsonl`, 100 steps, 2893 s)
+
+- KL started at **0.0007** on step 1, confirming the SFT reference works (KL begins
+  near 0).
+- It did not stay small. Mean KL over the run was **5.04** (median 5.32). First-10
+  mean **0.91**, last-10 mean **6.76**. Max **8.6984** at step 73; last step
+  **8.0683**.
+- Mean reward started at 0.759 and ended at 0.700 (a dip on the last step). First-10
+  mean **0.670**, last-10 mean **0.775**, overall mean **0.733** (median 0.747), min
+  0.502 (step 9), max 0.824 (step 77). Reward drifted up slightly on average; it did
+  not collapse.
+
+**Results** (41 eval prompts, greedy, token mask on, 2000 paired bootstrap; full
+report: [`results/REPORT.md`](results/REPORT.md). `results/` now reflects Run C;
+Run B remains documented in this README and in `results/idea2_runB/`.)
+
+| Config | Requirement-met % | Pure-English % | Letter % | Median words |
+|---|---|---|---|---|
+| Base + token mask | 85.4 | 61.0 | 100 | 33 |
+| SFT-180 start + mask | 97.6 | 100 | 100 | 45 |
+| Kevin's adapter (SFT+RL) + mask | 87.8 | 100 | 100 | 27 |
+| Trained (Run B) + mask | 95.1 | 100 | 100 | 31 |
+| **Trained (Run C) + mask** | **92.7** | 100 | 100 | 20 |
+
+| Paired difference (bootstrap over prompts, 2000 resamples) | Δ (pts) | 95% CI | Significant? |
+|---|---|---|---|
+| Run C − SFT-180 (requirement, controlled test) | −4.9 | [−12.2, 0] | no |
+| Run C − Kevin's adapter (requirement, unmatched compute) | +4.9 | [−4.9, 17.1] | no |
+| Kevin − base (pure_english) | +39.0 | [24.4, 53.7] | **yes** |
+
+By requirement type, Run C: items 100%, `items_with_reason` 88.2% (SFT 100%),
+sentences 100% (Kevin 63.6%), `max_words` 66.7% (same as SFT; this was the weak
+spot the run was meant to improve).
+
+Failures: **p37** ("In 8 words or fewer, sum up why kids should nap") degenerated
+into "Kids grow with shut shut shut…" for 160 tokens. **p09** and **p39** listed
+items without the required four-word reasons.
+
+**Honest takeaway**
+
+- Verifiable-reward RL from a near-ceiling SFT trades completeness for brevity.
+  Median words fell SFT 45 → Run B 31 → Run C 20.
+- Fixing the KL reference (it was to base, which made a KL of 8–12 reflect the
+  gap to base rather than drift from SFT) did not stop length drift at beta 0.03.
+  KL now starts near 0, as designed, but still climbed to ~8 (max 8.70 at step 73).
+  beta 0.03 was not strong enough to hold the policy near SFT.
+- The honest result is **no gain over SFT**: −4.9 pts, CI [−12.2, 0], not
+  significant, and slightly worse than Run B (95.1%). Putting `max_words` back in
+  training did not raise `max_words` completion (still 66.7%) and produced a
+  repetition collapse on p37.
+- **Next ideas (not done):** a length/completeness floor for `items_with_reason`,
+  a stronger repetition penalty or guard, and a stronger beta or fewer steps.
+
+Qualitative coherence scores (Claude proxy review) cover base and Kevin's adapter
+only; SFT-180, Run B, and Run C outputs have not been review-scored.
 
 ## Credit
 

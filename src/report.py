@@ -37,7 +37,7 @@ def main():
     configs = list(summary.keys())
     L = []
     L.append("# No-'e' lipogram benchmark — results\n")
-    L.append("Configs: `Qwen/Qwen3-1.7B` with a token mask (base), Kevin Wu's SFT-only start (`sft180`), Kevin Wu's released `k33wu/qwen3-1.7b-no-e` SFT+RL adapter, and `trained` = Run B, a 100-step GRPO-lite run with our verifiable reward, started from `sft180` (results/idea2_runB/).\n")
+    L.append("Configs: `Qwen/Qwen3-1.7B` with a token mask (base), Kevin Wu's SFT-only start (`sft180`), Kevin Wu's released `k33wu/qwen3-1.7b-no-e` SFT+RL adapter, and `trained` = Run C, a 100-step GRPO-lite run with our verifiable reward, KL against a frozen SFT-init adapter, beta 0.03, started from `sft180` (results/idea2_runC/). Run B numbers are kept in the README.\n")
     L.append("Each axis is measured **independently**. `letter_compliance` = answer has no 'e'. "
              "`requirement_completion` = the explicit structural ask (N items each with a reason, "
              "a sentence count, a word limit) was actually met. `usable` = both at once "

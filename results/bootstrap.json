@@ -108,16 +108,16 @@
         ]
       },
       "requirement": {
-        "mean": 95.1,
+        "mean": 92.7,
         "ci95": [
-          87.8,
+          85.4,
           100.0
         ]
       },
       "usable_strict": {
-        "mean": 95.1,
+        "mean": 92.7,
         "ci95": [
-          87.8,
+          82.9,
           100.0
         ]
       }
@@ -142,17 +142,17 @@
         "excludes_zero": false
       },
       "requirement": {
-        "mean_diff": -2.4,
+        "mean_diff": -4.9,
         "ci95": [
-          -7.3,
+          -12.2,
           0.0
         ],
         "excludes_zero": false
       },
       "usable_strict": {
-        "mean_diff": -2.4,
+        "mean_diff": -4.9,
         "ci95": [
-          -7.3,
+          -12.2,
           0.0
         ],
         "excludes_zero": false
@@ -210,17 +210,17 @@
         "excludes_zero": false
       },
       "requirement": {
-        "mean_diff": 7.3,
+        "mean_diff": 4.9,
         "ci95": [
-          -2.4,
-          19.5
+          -4.9,
+          17.1
         ],
         "excludes_zero": false
       },
       "usable_strict": {
-        "mean_diff": 7.3,
+        "mean_diff": 4.9,
         "ci95": [
-          -2.4,
+          -7.3,
           17.1
         ],
         "excludes_zero": false

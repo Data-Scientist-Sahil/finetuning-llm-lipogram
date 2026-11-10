@@ -121,19 +121,19 @@
     "letter_compliance_pct": 100.0,
     "english_pct": 100.0,
     "pure_latin_pct": 100.0,
-    "requirement_completion_pct": 95.1,
-    "usable_req_and_letter_pct": 95.1,
-    "usable_strict_pct": 95.1,
-    "mean_words": 35.39,
-    "median_words": 31,
-    "mean_gen_tokens": 44.22,
+    "requirement_completion_pct": 92.7,
+    "usable_req_and_letter_pct": 92.7,
+    "usable_strict_pct": 92.7,
+    "mean_words": 26.0,
+    "median_words": 20,
+    "mean_gen_tokens": 34.171,
     "judge": null,
     "by_requirement_type": {
       "items_with_reason": {
         "n": 17,
         "letter_pct": 100.0,
-        "requirement_pct": 100.0,
-        "both_pct": 100.0
+        "requirement_pct": 88.2,
+        "both_pct": 88.2
       },
       "items": {
         "n": 10,
@@ -144,8 +144,8 @@
       "sentences": {
         "n": 11,
         "letter_pct": 100.0,
-        "requirement_pct": 90.9,
-        "both_pct": 90.9
+        "requirement_pct": 100.0,
+        "both_pct": 100.0
       },
       "max_words": {
         "n": 3,

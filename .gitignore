@@ -32,3 +32,12 @@ results/idea2_*/**
 !results/idea2_runB/adapter/README.md
 planning/
 phase_logs/
+
+# Run C: keep the small training log + adapter config/card and frozen SFT-ref config; weights stay out (*.safetensors)
+!results/idea2_runC/
+!results/idea2_runC/train_log.jsonl
+!results/idea2_runC/adapter/
+!results/idea2_runC/adapter/adapter_config.json
+!results/idea2_runC/adapter/README.md
+!results/idea2_runC/adapter/ref_sft/
+!results/idea2_runC/adapter/ref_sft/adapter_config.json

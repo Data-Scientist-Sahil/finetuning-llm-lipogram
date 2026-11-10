@@ -1,6 +1,6 @@
 # No-'e' lipogram benchmark — results
 
-Configs: `Qwen/Qwen3-1.7B` with a token mask (base), Kevin Wu's SFT-only start (`sft180`), Kevin Wu's released `k33wu/qwen3-1.7b-no-e` SFT+RL adapter, and `trained` = Run B, a 100-step GRPO-lite run with our verifiable reward, started from `sft180` (results/idea2_runB/).
+Configs: `Qwen/Qwen3-1.7B` with a token mask (base), Kevin Wu's SFT-only start (`sft180`), Kevin Wu's released `k33wu/qwen3-1.7b-no-e` SFT+RL adapter, and `trained` = Run C, a 100-step GRPO-lite run with our verifiable reward, KL against a frozen SFT-init adapter, beta 0.03, started from `sft180` (results/idea2_runC/). Run B numbers are kept in the README.
 
 Each axis is measured **independently**. `letter_compliance` = answer has no 'e'. `requirement_completion` = the explicit structural ask (N items each with a reason, a sentence count, a word limit) was actually met. `usable` = both at once (this is the closest analogue to Kevin's single usable-rate gate, before coherence). Coherence/responsiveness sample scores were assigned by Claude as AI-generated proxy review, not independent human review, and are not independently judge-validated. No judge API cross-check ran. Legacy manual_* filenames are retained; manual_review.csv is an unscored worksheet.
 
@@ -11,7 +11,7 @@ Each axis is measured **independently**. `letter_compliance` = answer has no 'e'
 | Base + token mask | 41 | 100.0 | 61.0 | 85.4 | 85.4 | 82.9 | 39.537 | 33 |
 | SFT-180 start + mask | 41 | 100.0 | 100.0 | 97.6 | 97.6 | 97.6 | 52.366 | 45 |
 | Kevin's adapter (SFT+RL) + mask | 41 | 100.0 | 100.0 | 87.8 | 87.8 | 87.8 | 34.707 | 27 |
-| Trained (our RLVR) + mask | 41 | 100.0 | 100.0 | 95.1 | 95.1 | 95.1 | 35.39 | 31 |
+| Trained (our RLVR) + mask | 41 | 100.0 | 100.0 | 92.7 | 92.7 | 92.7 | 26.0 | 20 |
 
 Two gaps tell the story. **Letter-compliant % vs Requirement-met %**: the cheapest way to stay 'e'-free is to say less, so completeness lags letter-compliance. **Letter-compliant % vs Pure-English %**: the mask bans 'e'-tokens but not other scripts, so the mask-only base model escapes into CJK/Cyrillic characters (e.g. 'running鞋', '帮助', 'вопросы') in ~39% of answers — each passes a naive no-'e' check but is not English. Kevin's adapter fixes this completely (100% pure English), which is a large and concrete part of why it is 'better' — a single usable-rate number only captures it indirectly, through the coherence judge. `Usable strict %` requires no-'e' AND English (>=90% Latin) AND the requirement met.
 
@@ -22,7 +22,7 @@ Two gaps tell the story. **Letter-compliant % vs Requirement-met %**: the cheape
 | Base + token mask | 100.0 | 70.6 | 100.0 | 90.9 |
 | SFT-180 start + mask | 100.0 | 100.0 | 66.7 | 100.0 |
 | Kevin's adapter (SFT+RL) + mask | 100.0 | 94.1 | 100.0 | 63.6 |
-| Trained (our RLVR) + mask | 100.0 | 100.0 | 66.7 | 90.9 |
+| Trained (our RLVR) + mask | 100.0 | 88.2 | 66.7 | 100.0 |
 
 `items_with_reason` is where shrinking bites hardest: it needs several substantive items, so a short answer cannot satisfy it even when it is perfectly 'e'-free.
 
@@ -35,7 +35,7 @@ Point estimate with 95% CI, resampling the prompts with replacement (Kevin uses 
 | Base + token mask | 100.0 [100.0, 100.0] | 61.0 [46.3, 75.6] | 85.4 [73.2, 95.1] | 82.9 [70.7, 92.7] |
 | SFT-180 start + mask | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 97.6 [92.7, 100.0] | 97.6 [92.7, 100.0] |
 | Kevin's adapter (SFT+RL) + mask | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 87.8 [78.0, 97.6] | 87.8 [75.6, 97.6] |
-| Trained (our RLVR) + mask | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 95.1 [87.8, 100.0] | 95.1 [87.8, 100.0] |
+| Trained (our RLVR) + mask | 100.0 [100.0, 100.0] | 100.0 [100.0, 100.0] | 92.7 [85.4, 100.0] | 92.7 [82.9, 100.0] |
 
 **Paired difference: trained (our RLVR) − SFT-180 start — **controlled test of our reward** (same start, only our RL differs)** (same resampled prompts):
 
@@ -43,8 +43,8 @@ Point estimate with 95% CI, resampling the prompts with replacement (Kevin uses 
 |---|---|---|---|
 | letter | 0.0 | [0.0, 0.0] | no |
 | pure_english | 0.0 | [0.0, 0.0] | no |
-| requirement | -2.4 | [-7.3, 0.0] | no |
-| usable_strict | -2.4 | [-7.3, 0.0] | no |
+| requirement | -4.9 | [-12.2, 0.0] | no |
+| usable_strict | -4.9 | [-12.2, 0.0] | no |
 
 **Paired difference: Kevin's adapter (SFT+RL) − SFT-180 start — reference: his full RL from the same start** (same resampled prompts):
 
@@ -61,8 +61,8 @@ Point estimate with 95% CI, resampling the prompts with replacement (Kevin uses 
 |---|---|---|---|
 | letter | 0.0 | [0.0, 0.0] | no |
 | pure_english | 0.0 | [0.0, 0.0] | no |
-| requirement | 7.3 | [-2.4, 19.5] | no |
-| usable_strict | 7.3 | [-2.4, 17.1] | no |
+| requirement | 4.9 | [-4.9, 17.1] | no |
+| usable_strict | 4.9 | [-7.3, 17.1] | no |
 
 **Paired difference: Kevin's adapter − mask-only** (same resampled prompts):
 
@@ -119,12 +119,15 @@ The shrinking/cheating mode: 'e'-free, but the requested items/sentences are not
 
 ### Trained (our RLVR) + mask
 
-- **p37** (max_words, 10 words) — requirement detail: `{"satisfied": false, "found_words": 10, "limit": 8}`
+- **p09** (items_with_reason, 24 words) — requirement detail: `{"satisfied": false, "found_items": 4, "items_with_reason": 3, "target": 4, "mode": "exactly", "min_reason_words": 4}`
+  - prompt: Suggest 4 tips for a first job interview. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.
+  - answer: 1. Know your job and its limits. ⏎ 2. Ask about what you'll do. ⏎ 3. Say why you want this job. ⏎ 4. Finish with thanks.
+- **p39** (items_with_reason, 41 words) — requirement detail: `{"satisfied": false, "found_items": 3, "items_with_reason": 2, "target": 3, "mode": "exactly", "min_reason_words": 4}`
+  - prompt: Suggest 3 ways to stay warm on a cold walk. For each one, add a short reason. Number each point with a digit (1, 2, 3, ...) and keep the whole answer free of the letter e.
+  - answer: 1. Put on thick wool clothing. ⏎ Warm clothing stops cold air from blowing through gaps. ⏎  ⏎ 2. Walk slowly. ⏎ Slow motion allows body warmth to stay in motion. ⏎  ⏎ 3. Stop for a short drink. ⏎ A warm drink stops circulation and brings comfort.
+- **p37** (max_words, 160 words) — requirement detail: `{"satisfied": false, "found_words": 160, "limit": 8}`
   - prompt: In 8 words or fewer, sum up why kids should nap. Avoid the letter e.
-  - answer: Kids grow with naps. Naps aid growth and calm minds.
-- **p26** (sentences, 14 words) — requirement detail: `{"satisfied": false, "found_sentences": 1, "target": 2, "mode": "exactly"}`
-  - prompt: In exactly 2 sentences, say what makes a city fun to visit. Avoid the letter e.
-  - answer: A city with tasty food, good sights, and a busy crowd can bring joy.
+  - answer: Kids grow with shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut shut 
 
 ## AI-generated proxy review (Claude) — coherence & responsiveness (1-5)
 

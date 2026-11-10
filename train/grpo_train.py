@@ -56,7 +56,11 @@ def load_prompts(path):
 def build_policy(device, dtype, start_adapter=SFT_ADAPTER):
     tok = AutoTokenizer.from_pretrained(BASE_MODEL)
     base = AutoModelForCausalLM.from_pretrained(BASE_MODEL, torch_dtype=dtype, low_cpu_mem_usage=True)
-    model = PeftModel.from_pretrained(base, start_adapter, is_trainable=True)
+    model = PeftModel.from_pretrained(base, start_adapter, is_trainable=True)   # policy (trainable)
+    # second, FROZEN copy of the same SFT adapter as the KL reference (SFT-init),
+    # so the KL term measures drift from the good starting point, not from base.
+    model.load_adapter(start_adapter, adapter_name="ref_sft")                   # frozen by default
+    model.set_adapter("default")                                               # policy active
     model.to(device)
     return tok, model
 
@@ -163,10 +167,17 @@ def train(args):
             sl = slice(s, s + MB)
             ids_mb, attn_mb, adv_mb = ids_b[sl], attn_b[sl], adv_t[sl]
             plens_mb = plens[s:s + MB]
-            # reference (base, adapter disabled) first, then free it before the policy pass
+            # reference log-probs first, then free before the policy pass.
+            # kl_ref="sft": frozen SFT-init adapter (drift from the good start);
+            # kl_ref="base": plain base model (original, weaker choice).
             with torch.no_grad():
-                with model.disable_adapter():
+                if args.kl_ref == "sft":
+                    model.set_adapter("ref_sft")
                     ref_logits = model(input_ids=ids_mb, attention_mask=attn_mb).logits
+                    model.set_adapter("default")
+                else:
+                    with model.disable_adapter():
+                        ref_logits = model(input_ids=ids_mb, attention_mask=attn_mb).logits
                 ref_sum, _ = seqlogp_from_logits(ref_logits, ids_mb, attn_mb, plens_mb)
                 del ref_logits
             pol_logits = model(input_ids=ids_mb, attention_mask=attn_mb).logits
@@ -204,6 +215,8 @@ if __name__ == "__main__":
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--lr", type=float, default=1e-5)
     ap.add_argument("--beta", type=float, default=0.02)
+    ap.add_argument("--kl-ref", default="sft", choices=["sft", "base"],
+                    help="KL reference: 'sft' = frozen SFT-init (drift from good start); 'base' = plain base")
     ap.add_argument("--save-every", type=int, default=20)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--exclude-req-types", nargs="*", default=["max_words"],
