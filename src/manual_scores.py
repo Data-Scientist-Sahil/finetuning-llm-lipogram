@@ -1,6 +1,6 @@
 """Recorded AI-generated proxy review (Claude), coherence/responsiveness 1-5.
 
-Claude assigned these scores, not Sahil or an independent human reviewer.
+Claude assigned these scores; they are not independent human review.
 They have not been independently judge-validated; no judge API cross-check ran.
 The fixed sample spans 9 prompts per config. This script only re-exports the
 recorded scores; it performs no new review. Legacy manual_* filenames are kept

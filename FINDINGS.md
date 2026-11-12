@@ -82,8 +82,8 @@ benchmark*, which is the whole point of building Part 1 first:
   too-short answer can't claim completeness credit) recovered: **95.1%**, the items-with-reason
   regression eliminated (100%), shrinkage eased (median 31). Paired vs SFT: −2.4 points, CI
   [−7.3, 0.0] — statistically indistinguishable from SFT (a one-prompt difference, 39 vs 40/41).
-  Paired vs Kevin's released adapter: **+7.3 points** [−2.4, 19.5] — not significant, but
-  consistently favouring the verifiable reward. KL (to base) rose from ~3 to ~8–12 while reward
+  Paired vs Kevin's released adapter: **+7.3 points** [−2.4, 19.5] — the point estimate favours
+  the verifiable reward, but it is not significant. KL (to base) rose from ~3 to ~8–12 while reward
   stayed roughly flat.
 - **Run C (final)** (100 steps, `max_words` re-included, **KL reference switched from base to a
   frozen SFT-init adapter**, beta 0.03): intended to target SFT's single weakness (brevity on

@@ -2,7 +2,7 @@
 
 **Part 1 — evaluation harness:** the committed results analyse Kevin Wu's released
 `k33wu/qwen3-1.7b-no-e` SFT+RL adapter on `Qwen/Qwen3-1.7B`, against base-model
-baselines. These are not results from a model trained by Sahil.
+baselines. Part 1 results evaluate Kevin Wu's released adapter, not a model trained in this repo.
 
 **Part 2 — verifiable-reward training (Run B and Run C):** `train/` and the Kaggle
 notebook continue training from Kevin Wu's SFT-only adapter with a judge-free reward.
@@ -14,8 +14,8 @@ Adapter weights are not committed (size); configs and training logs are in
 `results/idea2_runB/` and `results/idea2_runC/`.
 
 **Review provenance:** Claude assigned the 18 qualitative sample scores as a proxy.
-They are AI-generated review, not independent human review or Sahil's manual
-ratings, and have not been independently judge-validated. No judge API cross-check
+They are AI-generated review, not independent human review,
+and have not been independently judge-validated. No judge API cross-check
 was run. Legacy `manual_*` filenames are retained for compatibility.
 
 A small, reproducible evaluation harness that stress-tests the claim behind
@@ -106,7 +106,8 @@ python src/generate.py --config adapter_mask --max-new-tokens 160   # pulls k33w
 
 # 3. score every deterministic axis
 python src/run_eval.py --configs base_prompt base_mask adapter_mask
-#   add --judge (needs ANTHROPIC_API_KEY or OPENAI_API_KEY) for the automated judge
+#   add --judge for the automated judge: needs GROQ_API_KEY (default backend), or
+#   --judge-backend anthropic|openai with ANTHROPIC_API_KEY / OPENAI_API_KEY
 
 # 4. re-export recorded Claude proxy scores (does NOT perform a new review) + report
 python src/manual_scores.py
@@ -135,9 +136,9 @@ not repeated model generations; it does not estimate decoding variance.
   strict escape count. Both are reported.
 - 41 prompts is a screening-size set. The authoring script makes it trivial to extend.
 
-## Part 2 — experimental verifiable-reward training kit
+## Part 2 — verifiable-reward training (Run B and Run C ran)
 
-The `train/` workflow is designed to continue training Qwen3-1.7B from Kevin's SFT-only adapter with a
+The `train/` workflow continues training Qwen3-1.7B from Kevin's SFT-only adapter with a
 **fully verifiable reward (no LLM judge in the loop)** that targets requirement-completion,
 then scores the result on this same benchmark.
 
@@ -198,7 +199,9 @@ python src/report.py
 - Eval now includes the **SFT-180 start** (`sft_mask`) so `trained − SFT-180` is a
   controlled test of our reward.
 
-**Results** (41 eval prompts, greedy, token mask on; full report: [`results/REPORT.md`](results/REPORT.md))
+**Results** (41 eval prompts, greedy, token mask on. `results/REPORT.md` now reflects Run C;
+Run B's full report is in commit
+[`127b616`](https://github.com/Data-Scientist-Sahil/finetuning-llm-lipogram/blob/127b616/results/REPORT.md).)
 
 | Config | Requirement-met % | Pure-English % | Letter % | Median words |
 |---|---|---|---|---|
@@ -300,8 +303,14 @@ only; SFT-180, Run B, and Run C outputs have not been review-scored.
 
 ## Credit
 
-Builds directly on Kevin Wu's experiment and released artifacts
-(`k33wu/qwen3-1.7b-no-e`, `k33wu/qwen3-1.7b-no-e-sft180`, and his training/eval code).
+Builds directly on Kevin Wu's experiment
+(["Teaching Qwen to write without the letter e"](https://kevin-wu.ca/blog/qwn/)) and his
+released artifacts:
+
+- Base model: [`Qwen/Qwen3-1.7B`](https://huggingface.co/Qwen/Qwen3-1.7B) (Apache-2.0)
+- [`k33wu/qwen3-1.7b-no-e`](https://huggingface.co/k33wu/qwen3-1.7b-no-e) — SFT+RL adapter (Apache-2.0)
+- [`k33wu/qwen3-1.7b-no-e-sft180`](https://huggingface.co/k33wu/qwen3-1.7b-no-e-sft180) — SFT-only adapter, the Run B/C start (Apache-2.0)
+
 This repo adds a separate requirement-level evaluation harness. Claude assisted
 with development and assigned the provisional qualitative review scores.
 Third-party model/adapter licenses remain separate from this repository's MIT
